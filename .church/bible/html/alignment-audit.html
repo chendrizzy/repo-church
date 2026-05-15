@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alignment Audit</title>
+<style>:root {
+  color-scheme: light;
+  --ink: #0b0f14;
+  --muted: #52606d;
+  --rule: #d7dee8;
+  --paper: #f8fafc;
+  --panel: #ffffff;
+  --blue: #1d4ed8;
+  --green: #15803d;
+  --amber: #b45309;
+  --red: #b91c1c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 18px 28px;
+  background: rgba(248, 250, 252, 0.92);
+  border-bottom: 1px solid var(--rule);
+  backdrop-filter: blur(10px);
+}
+main { max-width: 1180px; margin: 0 auto; padding: 28px; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.panel, section {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 18px 0;
+}
+table { width: 100%; border-collapse: collapse; background: var(--panel); }
+th, td { border: 1px solid var(--rule); padding: 8px 10px; vertical-align: top; }
+th { background: #eef2f7; text-align: left; }
+code, pre, textarea, input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+pre { overflow: auto; background: #0b0f14; color: #f8fafc; padding: 14px; border-radius: 8px; }
+blockquote { border-left: 4px solid var(--blue); margin-left: 0; padding-left: 14px; color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.field { display: grid; gap: 6px; margin-bottom: 14px; }
+label { font-weight: 650; }
+textarea, input, select {
+  width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+  color: var(--ink);
+}
+textarea { min-height: 110px; resize: vertical; }
+button {
+  border: 1px solid var(--blue);
+  background: var(--blue);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 650;
+  cursor: pointer;
+}
+button.secondary { background: #fff; color: var(--blue); }
+.status { color: var(--muted); font-size: 14px; }
+.pill { display: inline-flex; padding: 3px 8px; border: 1px solid var(--rule); border-radius: 999px; font-size: 12px; color: var(--muted); }</style>
+</head>
+<body>
+<header>
+<strong>Alignment Audit</strong>
+<nav><a href="index.html">Index</a></nav>
+</header>
+<main>
+<p>--- title: Alignment Audit generated: 2026-05-15 status: audit reference ---</p>
+<h1 id="alignment-audit">Alignment Audit</h1>
+<h2 id="summary">Summary</h2>
+<p>Repo Church already has the core architecture for self-governance: lifecycle skill, deterministic CLI, command surface, specialist agents, Bible CLI, tests, package validator, and install smoke path. The current meta run found that production readiness depends on turning that architecture into a repeatable full-lifecycle proof and ensuring the moat is supported by local evidence.</p>
+<h2 id="findings">Findings</h2>
+<table>
+<thead><tr>
+<th>ID</th>
+<th>Type</th>
+<th>Severity</th>
+<th>Evidence</th>
+<th>Impact</th>
+<th>Resolution</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>AA-01</td>
+<td>Missing proof</td>
+<td>High</td>
+<td>No dedicated test previously advanced all lifecycle keys from moat through refresh.</td>
+<td>Framework could claim E2E readiness without executable proof.</td>
+<td>Add <code>tests/test_church_meta_lifecycle.py</code>.</td>
+</tr>
+<tr>
+<td>AA-02</td>
+<td>Meta-Bible placeholders</td>
+<td>High</td>
+<td>Scaffolded <code>.church/bible/*.md</code> contained bracket placeholders.</td>
+<td>Agents could plan from vague doctrine.</td>
+<td>Replace with requirement-traced meta-Bible.</td>
+</tr>
+<tr>
+<td>AA-03</td>
+<td>Moat evidence gap</td>
+<td>High</td>
+<td>Initial <code>.church/moat/moat.json</code> scored <code>BLOCK</code>.</td>
+<td>No hard moat support.</td>
+<td>Import completed moat with local evidence and validation tests.</td>
+</tr>
+<tr>
+<td>AA-04</td>
+<td>External market caveat</td>
+<td>Medium</td>
+<td>No live competitor research performed in this meta run.</td>
+<td>Market positioning should not overclaim.</td>
+<td>Keep claims local-evidence-backed; schedule P03 market refresh.</td>
+</tr>
+</tbody></table>
+<h2 id="closure-items">Closure Items</h2>
+<table>
+<thead><tr>
+<th>Gap</th>
+<th>Owner</th>
+<th>Acceptance test</th>
+<th>Evidence required</th>
+<th>Recheck</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>AA-01</td>
+<td>agent</td>
+<td>Meta lifecycle test passes.</td>
+<td>Test output and validation report.</td>
+<td><code>python3 tests/test_church_meta_lifecycle.py</code></td>
+</tr>
+<tr>
+<td>AA-02</td>
+<td>agent</td>
+<td>Bible validate reports no required artifact terms missing.</td>
+<td><code>_repo-bible-validation.md</code>.</td>
+<td><code>church bible validate --root . --follow-local-md</code></td>
+</tr>
+<tr>
+<td>AA-03</td>
+<td>agent</td>
+<td><code>church moat check</code> returns <code>PASS</code>.</td>
+<td><code>.church/moat/moat.md</code>.</td>
+<td><code>church moat check --root .</code></td>
+</tr>
+<tr>
+<td>AA-04</td>
+<td>future owner</td>
+<td>Market claims cite current sources.</td>
+<td>Updated market watchlist.</td>
+<td>P03 refresh gate</td>
+</tr>
+</tbody></table>
+</main>
+</body>
+</html>

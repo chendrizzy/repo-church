@@ -1,0 +1,23 @@
+{
+  "items": [
+    {
+      "acceptance_test": "tests/test_church_meta_lifecycle.py",
+      "blocks_progression": false,
+      "created_at": "2026-05-15T14:05:56+00:00",
+      "evidence": ".church/proof/lifecycle-proof.json",
+      "id": "UAT-META-001",
+      "owner": "agent",
+      "proof": "proof artifact records every canonical stage",
+      "recheck": "church lifecycle prove --root <repo>",
+      "result": "pass",
+      "severity": "medium",
+      "status": "satisfied",
+      "summary": "Full lifecycle proof reaches refresh PASS",
+      "updated_at": "2026-05-15T14:05:56+00:00",
+      "workflow": null
+    }
+  ],
+  "kind": "uat",
+  "schema_version": "church-ledger/v1",
+  "updated_at": "2026-05-15T14:05:56+00:00"
+}
