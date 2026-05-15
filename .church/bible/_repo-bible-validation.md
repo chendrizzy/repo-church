@@ -1,6 +1,6 @@
 # Repo Bible Packet Validation
 
-- Packet: `/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/bible`
+- Packet: `.church/bible`
 - Files checked: 11
 - Errors: 0
 - Warnings: 0
