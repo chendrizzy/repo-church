@@ -13,6 +13,7 @@ import datetime as _dt
 import json
 import os
 import pathlib
+import re
 import shutil
 import subprocess
 import sys
@@ -32,6 +33,7 @@ DEFAULT_RUNTIME_DIR = ".church/runtime"
 GATE_OUTCOMES = ["PASS", "PASS_WITH_RISK", "HOLD", "BLOCK"]
 PASSING_OUTCOMES = {"PASS", "PASS_WITH_RISK"}
 UNKNOWN_OWNER_VALUES = {"", "unassigned", "unknown", "tbd", "todo", "none"}
+PLACEHOLDER_RE = re.compile(r"\[[A-Za-z][A-Za-z0-9 /_.:-]*\](?!\()")
 
 WORKFLOW_REGISTRY: dict[str, dict[str, Any]] = {
     "init": {
@@ -1242,7 +1244,15 @@ def write_artifact(root: pathlib.Path, rel_path: str, text: str) -> pathlib.Path
 def seed_bible_from_evidence_root(root: pathlib.Path, evidence_root: pathlib.Path) -> None:
     source = evidence_root / DEFAULT_BIBLE_DIR
     target = root / DEFAULT_BIBLE_DIR
-    if source == target or not source.exists():
+    if source == target:
+        return
+    if not source.exists():
+        if target.exists():
+            for target_path in target.glob("*.md"):
+                text = target_path.read_text(encoding="utf-8")
+                cleaned = PLACEHOLDER_RE.sub("TBD", text)
+                if cleaned != text:
+                    target_path.write_text(cleaned, encoding="utf-8")
         return
     target.mkdir(parents=True, exist_ok=True)
     for source_path in source.glob("*.md"):
