@@ -37,6 +37,8 @@ church thread complete <name> --root <repo>
 
 ## Output
 
+Every output must include the common gate record fields from `skills/church/references/gate-taxonomy.md`: evidence, failed criteria, risk owner, required next action, recheck command or artifact, and agent/user signoff status. Keep stage-specific sections below that record.
+
 ```markdown
 ## Thread Verdict
 Outcome:

@@ -85,6 +85,7 @@ TEST_HINTS = ("test", "spec", "__tests__", "tests/")
 URL_RE = re.compile(r"https?://[^\s)>\]\"']+")
 MD_LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 REQ_ID_RE = re.compile(r"\b[A-Z][A-Z0-9]*-\d{2,}\b")
+PLACEHOLDER_RE = re.compile(r"\[[A-Za-z][A-Za-z0-9 /_.:-]*\](?!\()")
 
 CHURCH_README_TEMPLATE = """# Repo Church
 
@@ -730,6 +731,9 @@ def validate_markdown_file(path: Path, root: Path) -> dict:
     trailing = [i + 1 for i, line in enumerate(text.splitlines()) if line.rstrip() != line]
     if trailing:
         errors.append(f"trailing whitespace lines: {trailing[:10]}")
+    placeholders = sorted(set(PLACEHOLDER_RE.findall(text)))
+    if placeholders:
+        warnings.append(f"unresolved placeholders: {placeholders[:10]}")
     for target in MD_LINK_RE.findall(text):
         if target.startswith(("http://", "https://", "#", "mailto:")):
             continue

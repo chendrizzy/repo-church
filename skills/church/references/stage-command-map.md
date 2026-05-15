@@ -14,6 +14,25 @@ Repo Church uses themed but practical command names. The names should help human
 | 6 | `church:bless` | Ship/merge gate, release risk, rollback, Bible drift | `gsd-ship`, `gsd-complete-milestone` | `church-ship` | `church-ship-steward`, `church-doctrine-auditor` |
 | 7 | `church:renew` | Bible refresh, learnings, next cycle setup | `gsd-docs-update`, `gsd-extract-learnings`, `gsd-new-milestone` | `repo-bible`, `church-anchor`, `church-moat` | `church-bible-scribe`, `church-doc-scribe`, `church-moat-scout` |
 
+## Canonical Lifecycle Terms
+
+Use this table when recording state. Do not invent alternate stage, gate, or workflow names in handoffs or gate records.
+
+| Human command | Reference stage | CLI workflow key | Gate | Required artifact(s) | Allowed next CLI keys |
+| --- | --- | --- | --- | --- | --- |
+| `church:gather` | Bible Intake / Project Init | `init` | `intake` | `state`, `moat_json`, `moat_md` | `moat`, `bible`, `survey` |
+| `church:gather` / `church-moat` | Moat Definition | `moat` | `moat` | `moat_json`, `moat_md` | `bible`, `survey`, `harden`, `anchor` |
+| `repo-bible` | Bible Generation | `bible` | `bible` | `bible_packet` | `survey`, `harden`, `anchor` |
+| `church:survey` | Codebase Survey | `survey` | `survey` | `bible_inventory` | `harden`, `anchor`, `gap-closure` |
+| `church:discern` | Research Hardening | `harden` | `evidence` | `assumption_ledger` | `anchor`, `gap-closure` |
+| `church:canonize` | Phase Anchoring | `anchor` | `anchor` | `phase_anchor` | `spec-gate`, `gap-closure` |
+| `church:canonize` | Spec Gate | `spec-gate` | `spec` | `spec_gate` | `gap-closure`, `handoff` |
+| `church:confess` / `church:atonement` | Gap Closure | `gap-closure` | `closure` | `gap_ledger` | `spec-gate`, `handoff` |
+| `church:commission` | Execution Handoff | `handoff` | `handoff` | `handoff` | `uat` |
+| `church:fellowship` | Collaborative UAT | `uat` | `verification` | `uat_ledger` | `ship`, `gap-closure` |
+| `church:bless` | Ship Gate | `ship` | `ship` | `ship_gate` | `refresh` |
+| `church:renew` | Bible Refresh | `refresh` | `refresh` | `refresh_record` | `moat`, `anchor`, `init` |
+
 ## Operational Shortcuts
 
 | Command | Primary purpose | GSD counterpart | Guardrail |
@@ -32,6 +51,20 @@ Repo Church uses themed but practical command names. The names should help human
 | `church:atonement` | Debug, diagnose, remediate, and recheck failures | `gsd-debug`, `gsd-forensics`, `gsd-audit-fix` | Requires evidence-backed root cause or explicit unknown. |
 | `church:quick-rite` | Small low-risk tasks without full cycle overhead | `gsd-fast`, `gsd-quick` | Forbidden for strategy, security, architecture, UX, or phase-scope changes. |
 | `church:council` | Command center/status view | `gsd-manager`, `gsd-health`, `gsd-stats` | CLI-first status; agent only interprets tradeoffs. |
+
+## Specialist Dispatch Thresholds
+
+Dispatch the specialist when the signal is present; record non-applicability when skipping.
+
+| Signal | Required specialist | Skip only when |
+| --- | --- | --- |
+| User-facing UI, visual design, interaction states, or screenshots changed | `church-ui-examiner` | The change is text-only and has no layout or workflow impact. |
+| Auth, data access, privacy, compliance, payments, destructive migrations, or secrets touched | `church-security-examiner` | A cited diff proves no sensitive surface changed. |
+| AI behavior, evals, prompts, model routing, embeddings, or generated output quality changed | `church-ai-eval-planner` | The phase has no AI-facing behavior. |
+| Brownfield architecture is unfamiliar or affects interfaces/data flow | `church-codebase-cartographer` | Current maps and file evidence are fresh enough for the decision. |
+| Market, competitor, platform, pricing, or policy claims affect planning | `church-moat-scout` | Claims are already current-source-backed with dates. |
+| Spec ambiguity could produce divergent implementations | `church-spec-canonist` | Acceptance criteria, files, tests, edge cases, and rollback are already explicit. |
+| Release readiness or rollback is being judged | `church-ship-steward` | The change is documentation-only and no lifecycle state advances. |
 
 ## Naming Standard
 

@@ -27,6 +27,8 @@ Use when the active command is `church:gather`, `church:discern`, or `church:ren
 
 ## Output
 
+Every specialist report must end with a standard footer covering traceability, evidence quality, acceptance/test coverage, edge cases, open closure items, owner, and recheck command.
+
 ```markdown
 ## Moat Scout Report
 Outcome: PASS | PASS_WITH_RISK | HOLD | BLOCK

@@ -13,7 +13,7 @@ Repo Church uses explicit gate outcomes so phase status is not confused with art
 
 ## Status Values
 
-Use these statuses in ledgers:
+Use these statuses in ledgers. Keep lifecycle outcome, ledger status, research confidence, and UAT result as separate fields; do not overload `status` with confidence labels or test results.
 
 - `open`
 - `in-progress`
@@ -24,6 +24,18 @@ Use these statuses in ledgers:
 - `blocked`
 
 Avoid vague states such as "done-ish", "probably", "needs review", or "TBD" without an owner and next action.
+
+## Ledger Closure Quality
+
+A ledger item is not closed just because its status says `satisfied`. Closure requires:
+
+- owner is assigned and not `unassigned`,
+- evidence points to the source problem or validation artifact,
+- proof explains what changed or passed,
+- recheck command or trigger is present for deferred items,
+- acceptance test is named for anything that blocks progression.
+
+Unknown statuses, unknown severities, missing required fields, and `satisfied` items without proof should be treated as unresolved by CLI checks.
 
 ## Gate Families
 
@@ -54,10 +66,15 @@ Require both agent and user approval before phase progression when work affects:
 
 ## Gate Record Format
 
+Every staged command output must include this common record before stage-specific sections. A `PASS` or `PASS_WITH_RISK` should also be recorded with `church lifecycle advance ... --evidence <proof-or-artifact>` so the state file can reject evidence-free passing outcomes.
+
 ```markdown
 Gate:
 Outcome:
 Evidence:
+Evidence type: verified-local | verified-current | supported-secondary | user-intent | hypothesis | stale | contradicted
+Confidence:
+Inference vs direct support:
 Failed criteria:
 Risk owner:
 Required next action:

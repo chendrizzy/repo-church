@@ -29,6 +29,7 @@ DEFAULT_RUNTIME_DIR = ".church/runtime"
 
 GATE_OUTCOMES = ["PASS", "PASS_WITH_RISK", "HOLD", "BLOCK"]
 PASSING_OUTCOMES = {"PASS", "PASS_WITH_RISK"}
+UNKNOWN_OWNER_VALUES = {"", "unassigned", "unknown", "tbd", "todo", "none"}
 
 WORKFLOW_REGISTRY: dict[str, dict[str, Any]] = {
     "init": {
@@ -430,6 +431,41 @@ def set_path(data: dict[str, Any], dotted: str, value: Any) -> None:
     cur[parts[-1]] = value
 
 
+def validate_state_set(key: str, value: Any) -> None:
+    mutable_keys = {
+        "active.workflow",
+        "active.stage",
+        "active.gate",
+        "active.outcome",
+        "active.phase",
+        "active.milestone",
+        "active.workspace",
+        "active.thread",
+        "signoff.agent",
+        "signoff.user",
+        "signoff.mutual_required",
+    }
+    if key.startswith("artifacts."):
+        if missing_quality_value(key, value):
+            raise SystemExit("Error: artifact state values must be non-empty paths.")
+        return
+    if key not in mutable_keys:
+        raise SystemExit(
+            f"Error: refusing to set unknown or unsafe state key '{key}'.\n"
+            "Use church registry keys for supported state fields."
+        )
+    if key == "active.workflow" and value not in WORKFLOW_REGISTRY:
+        raise SystemExit(f"Error: active.workflow must be one of: {', '.join(sorted(WORKFLOW_REGISTRY))}")
+    if key == "active.outcome" and value not in GATE_OUTCOMES:
+        raise SystemExit(f"Error: active.outcome must be one of: {', '.join(GATE_OUTCOMES)}")
+    if key == "active.gate":
+        known_gates = {info["gate"] for info in WORKFLOW_REGISTRY.values()}
+        if value not in known_gates:
+            raise SystemExit(f"Error: active.gate must be one of: {', '.join(sorted(known_gates))}")
+    if key.startswith("signoff.") and not isinstance(value, bool):
+        raise SystemExit(f"Error: {key} must be true or false.")
+
+
 def merge_dict(base: dict[str, Any], incoming: dict[str, Any]) -> dict[str, Any]:
     for key, value in incoming.items():
         if isinstance(value, dict) and isinstance(base.get(key), dict):
@@ -451,6 +487,36 @@ def coerce_value(value: str) -> Any:
         return json.loads(value)
     except Exception:
         return value
+
+
+def missing_quality_value(field: str, value: Any) -> bool:
+    if value is None:
+        return True
+    if isinstance(value, str):
+        stripped = value.strip()
+        if not stripped:
+            return True
+        if field == "owner" and stripped.lower() in UNKNOWN_OWNER_VALUES:
+            return True
+        return False
+    if isinstance(value, (list, dict, tuple, set)):
+        return not bool(value)
+    return False
+
+
+def parse_artifact_updates(artifact_args: list[str] | None) -> dict[str, str]:
+    updates: dict[str, str] = {}
+    for artifact in artifact_args or []:
+        if "=" not in artifact:
+            raise SystemExit(
+                "Error: --artifact must use NAME=PATH.\n"
+                "Example: church lifecycle advance handoff --artifact handoff=.church/handoff.md"
+            )
+        key, value = artifact.split("=", 1)
+        if not key.strip() or not value.strip():
+            raise SystemExit("Error: --artifact requires non-empty NAME=PATH.")
+        updates[key] = value
+    return updates
 
 
 def relative_to_root(root: pathlib.Path, path: pathlib.Path) -> str:
@@ -758,18 +824,55 @@ def score_moat(moat: dict[str, Any]) -> dict[str, Any]:
         "proof.market_evidence",
         "validation_tests",
     ]
+    narrative_paths = {
+        "elevator_pitch",
+        "third_party_summary",
+        "one_sentence_moat",
+        "market.category",
+        "market.buyer",
+        "market.urgent_pain",
+        "market.why_now",
+        "wedge.entry_point",
+        "wedge.switching_trigger",
+        "leverage.primary_source",
+        "leverage.what_compounds_with_use",
+        "leverage.what_gets_harder_to_copy",
+        "sustainability.defensibility",
+    }
+    source_list_paths = {"proof.market_evidence", "validation_tests"}
     missing: list[str] = []
+    quality_issues: list[str] = []
     present = 0
+    if moat.get("schema_version") != MOAT_SCHEMA_VERSION:
+        quality_issues.append(f"schema_version must be {MOAT_SCHEMA_VERSION}")
     for dotted in required_paths:
         try:
             value = get_path(moat, dotted)
         except KeyError:
             missing.append(dotted)
             continue
-        if value:
-            present += 1
-        else:
+        if not value:
             missing.append(dotted)
+        elif dotted in narrative_paths and (not isinstance(value, str) or len(value.strip()) < 12):
+            missing.append(dotted)
+            quality_issues.append(f"{dotted} is too thin to evaluate")
+        elif dotted in source_list_paths and (
+            not isinstance(value, list)
+            or not value
+            or any(not isinstance(item, str) or len(item.strip()) < 12 for item in value)
+        ):
+            missing.append(dotted)
+            quality_issues.append(f"{dotted} must include substantive evidence items")
+        else:
+            present += 1
+    scorecard = moat.get("scorecard", {})
+    if isinstance(scorecard, dict):
+        for key in ["clarity", "urgency", "differentiation", "durability", "evidence", "third_party_comprehension"]:
+            value = scorecard.get(key)
+            if not isinstance(value, int) or value < 0 or value > 4:
+                quality_issues.append(f"scorecard.{key} must be an integer from 0 to 4")
+    else:
+        quality_issues.append("scorecard must be an object")
     coverage = present / len(required_paths)
     if coverage >= 0.9:
         outcome = "PASS"
@@ -779,12 +882,15 @@ def score_moat(moat: dict[str, Any]) -> dict[str, Any]:
         outcome = "HOLD"
     else:
         outcome = "BLOCK"
+    if quality_issues and outcome in PASSING_OUTCOMES:
+        outcome = "HOLD"
     return {
         "outcome": outcome,
         "coverage": round(coverage, 3),
         "present": present,
         "required": len(required_paths),
         "missing": missing,
+        "quality_issues": quality_issues,
     }
 
 
@@ -895,15 +1001,61 @@ def update_registry_item_status(root: pathlib.Path, kind: str, item_id: str, sta
     return path, item
 
 
+def ledger_item_quality_issues(item: dict[str, Any], kind: str) -> list[str]:
+    info = LEDGER_KINDS[kind]
+    allowed_statuses = set(info["blocking_statuses"]) | {
+        "in-progress",
+        "satisfied",
+        "deferred-with-owner",
+        "superseded",
+        "pass",
+        "fail",
+    }
+    issues: list[str] = []
+    status = str(item.get("status", "")).lower()
+    severity = str(item.get("severity", "medium")).lower()
+    if status and status not in allowed_statuses:
+        issues.append(f"unknown status '{item.get('status')}'")
+    if severity not in {"low", "medium", "high", "critical"}:
+        issues.append(f"unknown severity '{item.get('severity')}'")
+    for field in info["required_fields"]:
+        if missing_quality_value(field, item.get(field)):
+            issues.append(f"missing required field '{field}'")
+    if status == "satisfied" and missing_quality_value("proof", item.get("proof")):
+        issues.append("satisfied item lacks closure proof")
+    if status == "deferred-with-owner":
+        if missing_quality_value("owner", item.get("owner")):
+            issues.append("deferred item lacks owner")
+        if missing_quality_value("recheck", item.get("recheck")):
+            issues.append("deferred item lacks recheck command or trigger")
+    return issues
+
+
 def ledger_check(data: dict[str, Any], kind: str) -> dict[str, Any]:
     info = LEDGER_KINDS[kind]
     blocking_statuses = set(info["blocking_statuses"])
     items = data.get("items", [])
-    blockers = [
-        item for item in items
-        if str(item.get("status", "")).lower() in blocking_statuses
-        and str(item.get("severity", "medium")).lower() in {"critical", "high", "medium"}
+    quality_issues = [
+        {
+            "id": item.get("id", ""),
+            "severity": item.get("severity", "medium"),
+            "status": item.get("status", ""),
+            "issues": ledger_item_quality_issues(item, kind),
+        }
+        for item in items
+        if ledger_item_quality_issues(item, kind)
     ]
+    blocker_ids = {
+        issue["id"]
+        for issue in quality_issues
+        if str(issue.get("severity", "medium")).lower() in {"critical", "high", "medium"}
+    }
+    blockers = []
+    for item in items:
+        severity = str(item.get("severity", "medium")).lower()
+        status = str(item.get("status", "")).lower()
+        if severity in {"critical", "high", "medium"} and (status in blocking_statuses or item.get("id") in blocker_ids):
+            blockers.append(item)
     critical = [item for item in blockers if str(item.get("severity", "")).lower() == "critical"]
     if critical:
         outcome = "BLOCK"
@@ -917,6 +1069,8 @@ def ledger_check(data: dict[str, Any], kind: str) -> dict[str, Any]:
         "item_count": len(items),
         "blocker_count": len(blockers),
         "blockers": blockers,
+        "quality_issue_count": len(quality_issues),
+        "quality_issues": quality_issues,
     }
 
 
@@ -928,17 +1082,19 @@ def render_ledger_md(data: dict[str, Any]) -> str:
         lines.append("No items.")
         lines.append("")
         return "\n".join(lines)
-    lines.append("| ID | Status | Severity | Summary | Owner | Evidence |")
-    lines.append("| --- | --- | --- | --- | --- | --- |")
+    lines.append("| ID | Status | Severity | Summary | Owner | Evidence | Proof | Recheck |")
+    lines.append("| --- | --- | --- | --- | --- | --- | --- | --- |")
     for item in items:
         lines.append(
-            "| {id} | {status} | {severity} | {summary} | {owner} | {evidence} |".format(
+            "| {id} | {status} | {severity} | {summary} | {owner} | {evidence} | {proof} | {recheck} |".format(
                 id=item.get("id", ""),
                 status=item.get("status", ""),
                 severity=item.get("severity", ""),
                 summary=str(item.get("summary", "")).replace("|", "\\|"),
                 owner=item.get("owner", ""),
                 evidence=str(item.get("evidence", "")).replace("|", "\\|"),
+                proof=str(item.get("proof", "")).replace("|", "\\|"),
+                recheck=str(item.get("recheck", "")).replace("|", "\\|"),
             )
         )
     lines.append("")
@@ -949,7 +1105,12 @@ def context_payload(root: pathlib.Path, include_history: bool, max_history: int)
     state = ensure_state(root)
     active = state.get("active", {})
     workflow_key = active.get("workflow")
-    workflow = WORKFLOW_REGISTRY.get(workflow_key, {})
+    if workflow_key not in WORKFLOW_REGISTRY:
+        raise SystemExit(
+            f"Error: state has unknown active.workflow '{workflow_key}'.\n"
+            "Repair with: church state set active.workflow <known-workflow>"
+        )
+    workflow = WORKFLOW_REGISTRY[workflow_key]
     moat_score = None
     moat_path = moat_dir(root) / "moat.json"
     if moat_path.exists():
@@ -972,6 +1133,91 @@ def context_payload(root: pathlib.Path, include_history: bool, max_history: int)
     if include_history:
         payload["history"] = state.get("history", [])[-max_history:]
     return payload
+
+
+def lifecycle_quality_check(
+    root: pathlib.Path,
+    data: dict[str, Any],
+    workflow_key: str,
+    outcome: str,
+    artifact_updates: dict[str, str],
+    evidence: str | None,
+) -> dict[str, Any]:
+    if outcome not in PASSING_OUTCOMES:
+        return {"checked": False, "blockers": [], "warnings": [], "reason": "outcome is not passing"}
+
+    artifacts = dict(data.get("artifacts", {}))
+    artifacts.update(artifact_updates)
+    blockers: list[dict[str, str]] = []
+    warnings: list[dict[str, str]] = []
+
+    if missing_quality_value("evidence", evidence):
+        blockers.append({
+            "check": "gate-evidence",
+            "message": "passing gate outcomes require --evidence with proof, artifact, or recheck source",
+        })
+
+    workflow = WORKFLOW_REGISTRY[workflow_key]
+    for artifact in workflow.get("required_artifacts", []):
+        value = artifacts.get(artifact)
+        if missing_quality_value(artifact, value):
+            blockers.append({
+                "check": "required-artifact",
+                "message": f"required artifact '{artifact}' is not registered",
+            })
+            continue
+        artifact_path = pathlib.Path(str(value))
+        if not artifact_path.is_absolute() and not (root / artifact_path).exists():
+            warnings.append({
+                "check": "artifact-existence",
+                "message": f"registered artifact '{artifact}' does not exist at {value}",
+            })
+
+    current_workflow = data.get("active", {}).get("workflow")
+    if workflow_key == "moat" or (current_workflow == "moat" and workflow_key != "moat"):
+        moat_path = moat_dir(root) / "moat.json"
+        if not moat_path.exists():
+            blockers.append({"check": "moat-score", "message": "moat.json is missing"})
+        else:
+            score = score_moat(load_json(moat_path))
+            if score["outcome"] not in PASSING_OUTCOMES:
+                blockers.append({
+                    "check": "moat-score",
+                    "message": f"moat score is {score['outcome']} with coverage {score['coverage']}",
+                })
+
+    for kind in LEDGER_KINDS:
+        result = ledger_check(load_ledger(root, kind), kind)
+        if result["outcome"] not in PASSING_OUTCOMES:
+            blockers.append({
+                "check": f"{kind}-ledger",
+                "message": f"{kind} ledger is {result['outcome']} with {result['blocker_count']} blockers",
+            })
+
+    signoff = data.get("signoff", {})
+    if workflow_key in {"uat", "ship"} and signoff.get("mutual_required"):
+        if not signoff.get("agent") or not signoff.get("user"):
+            blockers.append({
+                "check": "mutual-signoff",
+                "message": "mutual signoff is required but agent/user signoff is incomplete",
+            })
+
+    return {"checked": True, "blockers": blockers, "warnings": warnings}
+
+
+def format_quality_blockers(check: dict[str, Any]) -> str:
+    lines = ["Error: passing gate outcome failed quality checks."]
+    for issue in check.get("blockers", []):
+        lines.append(f"- {issue['check']}: {issue['message']}")
+    if check.get("warnings"):
+        lines.append("Warnings:")
+        for warning in check["warnings"]:
+            lines.append(f"- {warning['check']}: {warning['message']}")
+    lines.append(
+        "Use HOLD/BLOCK, add missing evidence/artifacts, or pass "
+        "--allow-quality-risk only for an explicitly accepted non-critical exception."
+    )
+    return "\n".join(lines)
 
 
 def render_handoff(root: pathlib.Path, fmt: str = "markdown") -> str | dict[str, Any]:
@@ -1094,7 +1340,9 @@ def cmd_state_get(args: argparse.Namespace) -> int:
 def cmd_state_set(args: argparse.Namespace) -> int:
     root = repo_root(args.root)
     data = ensure_state(root)
-    set_path(data, args.key, coerce_value(args.value))
+    value = coerce_value(args.value)
+    validate_state_set(args.key, value)
+    set_path(data, args.key, value)
     data["history"].append({"event": "state.set", "at": now_iso(), "key": args.key})
     save_state(root, data)
     emit({"updated": args.key, "state": str(state_path(root))}, args.format, "Repo Church State Update")
@@ -1209,6 +1457,7 @@ def cmd_lifecycle_advance(args: argparse.Namespace) -> int:
     root = repo_root(args.root)
     data = ensure_state(root)
     current = data.get("active", {}).get("workflow", "init")
+    artifact_updates = parse_artifact_updates(args.artifact)
     allowed = set(WORKFLOW_REGISTRY.get(current, {}).get("next", []))
     if args.workflow != current and args.workflow not in allowed and not args.force:
         print(
@@ -1230,9 +1479,18 @@ def cmd_lifecycle_advance(args: argparse.Namespace) -> int:
         proposed_active["phase"] = args.phase
     if args.milestone is not None:
         proposed_active["milestone"] = args.milestone
+    quality_check = lifecycle_quality_check(root, data, args.workflow, args.outcome, artifact_updates, args.evidence)
     if args.dry_run:
-        emit({"dry_run": True, "active": proposed_active, "would_register_artifacts": args.artifact or []}, args.format, "Repo Church Lifecycle Advance Preview")
+        emit({
+            "dry_run": True,
+            "active": proposed_active,
+            "would_register_artifacts": artifact_updates,
+            "quality_check": quality_check,
+        }, args.format, "Repo Church Lifecycle Advance Preview")
         return 0
+    if quality_check.get("blockers") and not args.allow_quality_risk:
+        print(format_quality_blockers(quality_check), file=sys.stderr)
+        return 1
     data["active"].update({
         "workflow": args.workflow,
         "stage": args.stage or info["default_stage"],
@@ -1243,18 +1501,19 @@ def cmd_lifecycle_advance(args: argparse.Namespace) -> int:
         data["active"]["phase"] = args.phase
     if args.milestone is not None:
         data["active"]["milestone"] = args.milestone
-    for artifact in args.artifact or []:
-        if "=" not in artifact:
-            print("Error: --artifact must use NAME=PATH.\nExample: church lifecycle advance handoff --artifact handoff=.church/handoff.md", file=sys.stderr)
-            return 1
-        key, value = artifact.split("=", 1)
+    for key, value in artifact_updates.items():
         data["artifacts"][key] = value
     event = {"event": "lifecycle.advance", "at": now_iso(), "workflow": args.workflow, "outcome": args.outcome}
     if args.evidence:
         event["evidence"] = args.evidence
+    if args.force:
+        event["forced"] = True
+    if args.allow_quality_risk:
+        event["quality_risk_accepted"] = True
+        event["quality_check"] = quality_check
     data["history"].append(event)
     save_state(root, data)
-    emit({"active": data["active"], "state": str(state_path(root))}, args.format, "Repo Church Lifecycle Advance")
+    emit({"active": data["active"], "state": str(state_path(root)), "quality_check": quality_check}, args.format, "Repo Church Lifecycle Advance")
     return 0
 
 
@@ -1306,6 +1565,9 @@ def cmd_ledger_add(args: argparse.Namespace) -> int:
         "evidence": args.evidence,
         "owner": args.owner,
         "proof": args.proof,
+        "acceptance_test": args.acceptance_test,
+        "recheck": args.recheck,
+        "blocks_progression": args.blocks_progression,
         "workflow": args.workflow,
         "created_at": now_iso(),
         "updated_at": now_iso(),
@@ -1774,7 +2036,7 @@ def build_parser() -> argparse.ArgumentParser:
             "Examples:\n"
             "  church init --root . --mode brownfield --project-name api-bank\n"
             "  church moat check --root . --allow-incomplete\n"
-            "  church lifecycle advance anchor --root . --outcome PASS --force\n"
+            "  church lifecycle advance anchor --root . --outcome PASS --evidence .church/anchors/phase-01.md --force\n"
             "  church context load --root . --format markdown\n"
             "  church bible inventory --root . --format json --output -"
         ),
@@ -1893,6 +2155,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_lifecycle_advance.add_argument("--evidence")
     p_lifecycle_advance.add_argument("--artifact", action="append", help="Register artifact as NAME=PATH.")
     p_lifecycle_advance.add_argument("--force", action="store_true", help="Allow non-adjacent transition.")
+    p_lifecycle_advance.add_argument(
+        "--allow-quality-risk",
+        action="store_true",
+        help="Record a passing outcome despite quality-check blockers; use only for explicitly accepted non-critical exceptions.",
+    )
     p_lifecycle_advance.add_argument("--dry-run", action="store_true", help="Preview transition without writing state.")
     p_lifecycle_advance.add_argument("--root", default=".")
     add_format(p_lifecycle_advance)
@@ -1928,6 +2195,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_ledger_add.add_argument("--evidence", default="")
     p_ledger_add.add_argument("--owner", default="unassigned")
     p_ledger_add.add_argument("--proof", default="")
+    p_ledger_add.add_argument("--acceptance-test", default="", help="Acceptance proof needed to close this item.")
+    p_ledger_add.add_argument("--recheck", default="", help="Command or trigger used to recheck closure.")
+    p_ledger_add.add_argument("--blocks-progression", action="store_true", help="Mark this item as blocking phase progression.")
     p_ledger_add.add_argument("--workflow")
     p_ledger_add.add_argument("--extra", action="append")
     p_ledger_add.add_argument("--force", action="store_true")

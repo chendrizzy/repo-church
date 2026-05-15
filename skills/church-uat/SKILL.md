@@ -28,7 +28,7 @@ This skill validates implemented work against Bible success requirements, UX wor
 6. Convert failures to gap-closure items with `church ledger add gaps ...`.
 7. Record signoff state with `church state set signoff.agent true` and, when the user approves, `church state set signoff.user true`.
 8. Require mutual signoff when strategic, subjective, brand, data, security, pricing, or roadmap decisions are involved.
-9. Advance with `church lifecycle advance uat --root <repo> --outcome PASS|HOLD|BLOCK`.
+9. Advance with `church lifecycle advance uat --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD|BLOCK --evidence <uat-ledger-or-report>`.
 
 ## Output
 
@@ -52,8 +52,8 @@ User signoff: yes|no|pending
 Reason:
 
 ## Failures To Close
-| Failure | Severity | Owner | Recheck |
-| --- | --- | --- | --- |
+| Failure | Severity | Owner | Acceptance test | Evidence required | Recheck command | Blocks? | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 
 ## Tooling Used
 HTML packet:

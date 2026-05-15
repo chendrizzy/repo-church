@@ -44,7 +44,7 @@ Each phase anchor must include:
 4. Build a traceability table from Bible requirements to phase outcomes.
 5. Identify missing details that would cause divergent implementation.
 6. Record anchor gaps with `church ledger add gaps ...` when they block independent execution.
-7. Advance only after judgment: `church lifecycle advance anchor --root <repo> --outcome PASS|HOLD|BLOCK --phase <phase>`.
+7. Advance only after judgment: `church lifecycle advance anchor --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD|BLOCK --phase <phase> --evidence <anchor-artifact>`.
 
 ## Output
 

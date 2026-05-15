@@ -42,7 +42,7 @@ church lifecycle status --root <repo> --format json
 Record final decision:
 
 ```bash
-church lifecycle advance ship --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD|BLOCK
+church lifecycle advance ship --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD|BLOCK --evidence <ship-gate-report>
 ```
 
 ## Output

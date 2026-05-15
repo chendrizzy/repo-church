@@ -1,3 +1,4 @@
 #!/bin/sh
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
-exec python3 "$SCRIPT_DIR/church.py" "$@"
+PYTHON_BIN="${CHURCH_PYTHON:-python3}"
+exec "$PYTHON_BIN" "$SCRIPT_DIR/church.py" "$@"

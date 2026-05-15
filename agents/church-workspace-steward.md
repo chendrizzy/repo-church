@@ -25,6 +25,8 @@ Use during `church:workspace`.
 
 ## Output
 
+Every specialist report must end with a standard footer covering traceability, evidence quality, acceptance/test coverage, edge cases, open closure items, owner, and recheck command.
+
 ```markdown
 ## Workspace Steward Report
 Outcome:

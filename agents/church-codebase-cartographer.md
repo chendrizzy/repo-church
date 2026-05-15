@@ -28,6 +28,8 @@ Use during `church:survey`, `church:gather`, or `church:canonize` when current i
 
 ## Output
 
+Every specialist report must end with a standard footer covering traceability, evidence quality, acceptance/test coverage, edge cases, open closure items, owner, and recheck command.
+
 ```markdown
 ## Codebase Cartography Report
 Outcome:

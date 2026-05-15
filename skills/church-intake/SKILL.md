@@ -38,7 +38,7 @@ Use this skill after a Repo Bible exists or during initial project init. If no s
    - market threats,
    - architecture/design constraints.
 6. Produce a thin roadmap slice: next milestone, 3 to 5 outcomes, dependencies, and missing evidence.
-7. Record route if clear: `church lifecycle advance <workflow> --root <repo> --outcome HOLD|PASS`.
+7. Record route if clear: `church lifecycle advance <workflow> --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD|BLOCK --evidence <intake-or-routing-artifact>`.
 8. Do not deep-plan implementation yet. Route unknowns to `church-harden`.
 
 ## Output

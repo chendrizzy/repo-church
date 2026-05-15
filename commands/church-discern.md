@@ -42,12 +42,14 @@ church registry reasoning harden --format markdown
 Use:
 
 ```bash
-church ledger add assumptions --root <repo> --id A-001 --summary "..." --status verified-current --evidence "..." --owner agent
+church ledger add assumptions --root <repo> --id A-001 --summary "..." --status satisfied --evidence "..." --owner agent --proof "source reviewed" --extra confidence=verified-current
 church ledger check assumptions --root <repo>
-church lifecycle advance harden --root <repo> --outcome PASS|HOLD|BLOCK
+church lifecycle advance harden --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD|BLOCK --evidence "<assumption-ledger-or-report>"
 ```
 
 ## Output
+
+Every output must include the common gate record fields from `skills/church/references/gate-taxonomy.md`: evidence, failed criteria, risk owner, required next action, recheck command or artifact, and agent/user signoff status. Keep stage-specific sections below that record.
 
 ```markdown
 ## Discern Verdict
@@ -55,8 +57,8 @@ Outcome:
 Planning allowed: yes|no
 
 ## Assumptions
-| ID | Claim | Confidence | Evidence | Impact | Status |
-| --- | --- | --- | --- | --- | --- |
+| ID | Claim | Confidence | Evidence | Impact | Status | Owner | Recheck |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 
 ## Blocking Questions
 | Question | Why it matters | Owner | Recheck |

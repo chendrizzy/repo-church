@@ -9,6 +9,7 @@ Run from the repository root:
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import shutil
 import subprocess
@@ -34,6 +35,7 @@ class ChurchCliE2ETest(unittest.TestCase):
             input=input_text,
             text=True,
             capture_output=True,
+            env={**os.environ, "CHURCH_PYTHON": sys.executable, "PYTHONDONTWRITEBYTECODE": "1"},
         )
         if check and result.returncode != 0:
             self.fail(f"Command failed: church {' '.join(args)}\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}")
@@ -142,12 +144,27 @@ class ChurchCliE2ETest(unittest.TestCase):
         status = self.json_cli("lifecycle", "status", "--root", str(self.tmp), "--include-history", "--format", "json")
         self.assertEqual(status["active"]["workflow"], "moat")
         self.assertIn("moat_json", status["artifacts"])
+        self.json_cli(
+            "moat", "import",
+            "--root", str(self.tmp),
+            "--stdin",
+            "--merge",
+            "--format", "json",
+            input_text=json.dumps(self.seed_complete_moat()),
+        )
 
         preview = self.json_cli("lifecycle", "advance", "bible", "--root", str(self.tmp), "--outcome", "PASS", "--dry-run", "--format", "json")
         self.assertTrue(preview["dry_run"])
         survey_preview = self.json_cli("lifecycle", "advance", "survey", "--root", str(self.tmp), "--outcome", "PASS", "--dry-run", "--format", "json")
         self.assertTrue(survey_preview["dry_run"])
-        self.json_cli("lifecycle", "advance", "bible", "--root", str(self.tmp), "--outcome", "PASS", "--artifact", "bible_packet=.church/bible/", "--format", "json")
+        self.json_cli(
+            "lifecycle", "advance", "bible",
+            "--root", str(self.tmp),
+            "--outcome", "PASS",
+            "--evidence", "bible packet registered for test handoff",
+            "--artifact", "bible_packet=.church/bible/",
+            "--format", "json",
+        )
         handoff_path = self.tmp / ".church" / "handoff.md"
         self.json_cli("lifecycle", "handoff", "--root", str(self.tmp), "--output", str(handoff_path), "--format", "markdown")
         self.assertIn("Repo Church Handoff", handoff_path.read_text())
@@ -161,6 +178,9 @@ class ChurchCliE2ETest(unittest.TestCase):
         self.json_cli("moat", "init", "--root", str(self.tmp), "--project-name", "Demo", "--force", "--format", "json")
         incomplete = self.json_cli("moat", "check", "--root", str(self.tmp), "--allow-incomplete", "--format", "json")
         self.assertEqual(incomplete["outcome"], "BLOCK")
+        weak_pass = self.run_cli("lifecycle", "advance", "moat", "--root", str(self.tmp), "--outcome", "PASS", "--format", "json", check=False)
+        self.assertNotEqual(weak_pass.returncode, 0)
+        self.assertIn("moat score is BLOCK", weak_pass.stderr)
 
         self.json_cli("moat", "set", "elevator_pitch", "Short pitch", "--root", str(self.tmp), "--format", "json")
         exported_md = self.run_cli("moat", "export", "--root", str(self.tmp), "--format", "markdown").stdout
@@ -174,6 +194,16 @@ class ChurchCliE2ETest(unittest.TestCase):
         self.json_cli("moat", "import", "--root", str(self.tmp), "--stdin", "--merge", "--format", "json", input_text=complete)
         score = self.json_cli("moat", "check", "--root", str(self.tmp), "--format", "json")
         self.assertIn(score["outcome"], ["PASS", "PASS_WITH_RISK"])
+        thin = self.seed_complete_moat()
+        thin["schema_version"] = "not-church-moat"
+        thin["elevator_pitch"] = "x"
+        thin["proof"]["market_evidence"] = ["x"]
+        thin["validation_tests"] = ["x"]
+        thin_path = self.tmp / "thin-moat.json"
+        thin_path.write_text(json.dumps(thin))
+        thin_score = self.json_cli("moat", "check", "--root", str(self.tmp), "--input", str(thin_path), "--allow-incomplete", "--format", "json")
+        self.assertNotEqual(thin_score["outcome"], "PASS")
+        self.assertGreater(len(thin_score["quality_issues"]), 0)
 
         custom_md = self.tmp / "custom-moat.md"
         self.json_cli("moat", "render", "--root", str(self.tmp), "--output", str(custom_md), "--format", "json")
@@ -220,6 +250,20 @@ class ChurchCliE2ETest(unittest.TestCase):
         )
         passed = self.json_cli("ledger", "check", "gaps", "--root", str(self.tmp), "--format", "json")
         self.assertEqual(passed["outcome"], "PASS")
+        self.json_cli(
+            "ledger", "add", "gaps",
+            "--root", str(self.tmp),
+            "--id", "GAP-2",
+            "--summary", "Closed without proof",
+            "--status", "satisfied",
+            "--severity", "high",
+            "--evidence", ".church/moat/moat.md",
+            "--owner", "agent",
+            "--format", "json",
+        )
+        no_proof = self.run_cli("ledger", "check", "gaps", "--root", str(self.tmp), "--format", "json", check=False)
+        self.assertNotEqual(no_proof.returncode, 0)
+        self.assertGreater(json.loads(no_proof.stdout)["quality_issue_count"], 0)
         reset = self.json_cli("ledger", "init", "gaps", "--root", str(self.tmp), "--force", "--format", "json")
         self.assertIn("ledger", reset)
 
@@ -298,6 +342,12 @@ class ChurchCliE2ETest(unittest.TestCase):
         result = self.run_cli("lifecycle", "advance", "ship", "--root", str(self.tmp), "--outcome", "PASS", "--format", "json", check=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("Allowed next workflows", result.stderr)
+        forced = self.run_cli("lifecycle", "advance", "ship", "--root", str(self.tmp), "--outcome", "PASS", "--force", "--format", "json", check=False)
+        self.assertNotEqual(forced.returncode, 0)
+        self.assertIn("passing gate outcome failed quality checks", forced.stderr)
+        invalid_state = self.run_cli("state", "set", "active.workflow", "bogus", "--root", str(self.tmp), "--format", "json", check=False)
+        self.assertNotEqual(invalid_state.returncode, 0)
+        self.assertIn("active.workflow must be one of", invalid_state.stderr)
 
 
 if __name__ == "__main__":

@@ -42,7 +42,7 @@ Use this skill before execution. The goal is to prevent under-specified plans fr
 5. Check implementation sequence and dependency order.
 6. Check whether execution can be parallelized safely.
 7. Emit missing work as closure items with `church ledger add gaps ...`.
-8. Record the gate with `church lifecycle advance spec-gate --root <repo> --outcome PASS|HOLD|BLOCK`.
+8. Record the gate with `church lifecycle advance spec-gate --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD|BLOCK --evidence <spec-or-review-artifact>`.
 
 ## Output
 
@@ -60,8 +60,8 @@ Reason:
 | --- | --- | --- | --- |
 
 ## Required Revisions
-| ID | Revision | Blocks execution? | Owner |
-| --- | --- | --- | --- |
+| ID | Source gap | Severity | Revision | Owner | Acceptance test | Evidence required | Recheck command | Blocks? | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 ## Tooling Used
 Validation report:

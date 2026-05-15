@@ -42,10 +42,12 @@ Render and register:
 
 ```bash
 church lifecycle handoff --root <repo> --output <path> --format markdown
-church lifecycle advance handoff --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD --artifact handoff=<path>
+church lifecycle advance handoff --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD|BLOCK --artifact handoff=<path> --evidence "<handoff-artifact>"
 ```
 
 ## Output
+
+Every output must include the common gate record fields from `skills/church/references/gate-taxonomy.md`: evidence, failed criteria, risk owner, required next action, recheck command or artifact, and agent/user signoff status. Keep stage-specific sections below that record.
 
 ```markdown
 ## Commission Verdict

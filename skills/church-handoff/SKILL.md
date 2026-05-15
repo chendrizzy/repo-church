@@ -27,7 +27,7 @@ Use this skill when work is about to move from planning to execution, between ag
 5. Define first three moves for the next executor.
 6. Split safe parallel streams from critical path work.
 7. Render deterministic handoff: `church lifecycle handoff --root <repo> --output <path> --format markdown`.
-8. Register the handoff with `church lifecycle advance handoff --root <repo> --artifact handoff=<path>`.
+8. Register the handoff with `church lifecycle advance handoff --root <repo> --artifact handoff=<path> --evidence <handoff-artifact>`.
 
 ## Output
 

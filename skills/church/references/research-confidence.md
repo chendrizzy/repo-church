@@ -38,9 +38,11 @@ Use model inference only as a hypothesis.
 
 ## Assumption Ledger
 
+Use `confidence` for evidence strength and `status` for workflow state. For example, a claim can be `confidence=hypothesis` and `status=open`; do not store `hypothesis` as the only status because closure checks need both dimensions.
+
 ```markdown
-| ID | Claim | Confidence | Evidence | Impact if wrong | Required validation | Status |
-| --- | --- | --- | --- | --- | --- | --- |
+| ID | Claim | Confidence | Evidence | Impact if wrong | Required validation | Status | Owner | Recheck |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 ```
 
 ## Acceptance Threshold

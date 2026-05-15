@@ -120,6 +120,7 @@ class ChurchPluginAssetTest(unittest.TestCase):
             self.assertIn(f"# {command_label}", text)
             self.assertIn("church", text)
             self.assertIn("## Output", text)
+            self.assertIn("common gate record", text)
 
             if command_label in CORE_STAGE_LABELS:
                 self.assertIn("## Progressive Loading", text)
@@ -177,6 +178,7 @@ class ChurchPluginAssetTest(unittest.TestCase):
             self.assertIn("capabilities:", text)
             for section in ["## Required Inputs", "## Work", "## Output", "## Quality Bar"]:
                 self.assertIn(section, text)
+            self.assertIn("standard footer", text)
             self.assertIn(stem, combined_references)
 
     def test_commands_only_reference_existing_church_assets(self) -> None:

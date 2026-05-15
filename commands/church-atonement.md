@@ -30,6 +30,8 @@ church ledger add gaps --root <repo> --id BUG-001 --summary "..." --severity hig
 
 ## Output
 
+Every output must include the common gate record fields from `skills/church/references/gate-taxonomy.md`: evidence, failed criteria, risk owner, required next action, recheck command or artifact, and agent/user signoff status. Keep stage-specific sections below that record.
+
 ```markdown
 ## Atonement Verdict
 Root cause:

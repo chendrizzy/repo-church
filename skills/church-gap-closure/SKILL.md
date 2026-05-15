@@ -31,9 +31,9 @@ Use this skill whenever a gate finds missing evidence, drift, contradiction, or 
 3. Identify source evidence on both sides of the conflict.
 4. Classify severity: `critical`, `high`, `medium`, `low`.
 5. Decide resolution: fix now, defer with owner, supersede, or escalate for user decision.
-6. Add closure proof by replacing the ledger item with `--force` and a satisfied status.
+6. Add closure proof by replacing the ledger item with `--force`, a satisfied status, `--proof`, and a recheck command when deferring.
 7. Run `church ledger check gaps --root <repo>`.
-8. Re-run the relevant lifecycle gate with `church lifecycle advance <workflow> ...`.
+8. Re-run the relevant lifecycle gate with `church lifecycle advance <workflow> ... --evidence <closure-artifact>`.
 
 ## Output
 
@@ -47,8 +47,8 @@ Reason:
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 ## Remediation Plan
-| Step | Action | Automatable? | Recheck |
-| --- | --- | --- | --- |
+| ID | Source gap | Severity | Owner | Acceptance test | Evidence required | Action | Automatable? | Recheck command | Blocks? | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 ## Gate To Re-run
 Gate:

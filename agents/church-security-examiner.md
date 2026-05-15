@@ -26,6 +26,8 @@ Use when a phase touches auth, API keys, secrets, payments, user data, permissio
 
 ## Output
 
+Every specialist report must end with a standard footer covering traceability, evidence quality, acceptance/test coverage, edge cases, open closure items, owner, and recheck command.
+
 ```markdown
 ## Security Examination
 Outcome:

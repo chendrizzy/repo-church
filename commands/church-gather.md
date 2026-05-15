@@ -44,7 +44,20 @@ church moat check --root <repo> --allow-incomplete --format json
 - next workflow is selected from `church registry list`,
 - no critical unknown blocks basic routing.
 
+## Routing Rubric
+
+| Signal | Threshold | Outcome | Next command | Required ledger item |
+| --- | --- | --- | --- | --- |
+| Bible packet missing or mostly placeholders | No usable requirements/roadmap/validation artifacts | `HOLD` | `repo-bible` / `church bible scaffold` | Gap for missing Bible source |
+| Moat score is `BLOCK` or generic | Missing leverage, proof, or validation tests | `HOLD` | `church-moat` | Gap for weak moat evidence |
+| Brownfield code can change scope or interfaces | Existing modules, data flows, or tests are unclear | `HOLD` | `church:survey` | Gap for implementation reality |
+| External claim affects planning | Claim is stale, volatile, or unsupported | `HOLD` | `church:discern` | Assumption with confidence label |
+| Critical/high blockers exist | Any open critical/high gap, risk, or UAT blocker | `BLOCK` | `church:atonement` or `church-gap-closure` | Closure item with owner and recheck |
+| Requirements, moat, evidence, and blockers are usable | No critical routing unknowns | `PASS` or `PASS_WITH_RISK` | `church:canonize` or next registry key | Risk item for accepted non-critical risk |
+
 ## Output
+
+Every output must include the common gate record fields from `skills/church/references/gate-taxonomy.md`: evidence, failed criteria, risk owner, required next action, recheck command or artifact, and agent/user signoff status. Keep stage-specific sections below that record.
 
 ```markdown
 ## Gather Verdict

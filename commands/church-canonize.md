@@ -50,11 +50,13 @@ church registry reasoning spec-gate --format markdown
 Record:
 
 ```bash
-church lifecycle advance anchor --root <repo> --outcome PASS|HOLD|BLOCK --phase "<phase>"
-church lifecycle advance spec-gate --root <repo> --outcome PASS|HOLD|BLOCK --artifact spec_gate=<path>
+church lifecycle advance anchor --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD|BLOCK --phase "<phase>" --evidence "<anchor-artifact>"
+church lifecycle advance spec-gate --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD|BLOCK --artifact spec_gate=<path> --evidence "<spec-gate-report>"
 ```
 
 ## Output
+
+Every output must include the common gate record fields from `skills/church/references/gate-taxonomy.md`: evidence, failed criteria, risk owner, required next action, recheck command or artifact, and agent/user signoff status. Keep stage-specific sections below that record.
 
 ```markdown
 ## Canon Verdict

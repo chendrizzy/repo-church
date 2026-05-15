@@ -46,13 +46,16 @@ church registry reasoning uat --format markdown
 Record:
 
 ```bash
-church ledger add uat --root <repo> --id UAT-001 --summary "..." --status pass|fail --evidence "..." --owner agent
+church ledger add uat --root <repo> --id UAT-001 --summary "..." --status satisfied --evidence "..." --owner agent --proof "passed" --extra result=pass
+# For failures: church ledger add uat --root <repo> --id UAT-002 --summary "..." --status open --severity high --evidence "..." --owner agent --extra result=fail
 church state set signoff.agent true --root <repo>
 church state set signoff.user true --root <repo>
-church lifecycle advance uat --root <repo> --outcome PASS|HOLD|BLOCK
+church lifecycle advance uat --root <repo> --outcome PASS|PASS_WITH_RISK|HOLD|BLOCK --evidence "<uat-ledger-or-report>"
 ```
 
 ## Output
+
+Every output must include the common gate record fields from `skills/church/references/gate-taxonomy.md`: evidence, failed criteria, risk owner, required next action, recheck command or artifact, and agent/user signoff status. Keep stage-specific sections below that record.
 
 ```markdown
 ## Fellowship Verdict
@@ -62,6 +65,6 @@ Agent signoff:
 User signoff:
 
 ## UAT Matrix
-| ID | Story | Result | Evidence | Signoff |
-| --- | --- | --- | --- | --- |
+| ID | Story | Status | Result | Evidence | Signoff | Recheck |
+| --- | --- | --- | --- | --- | --- | --- |
 ```

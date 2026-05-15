@@ -34,6 +34,8 @@ church branch plan --root <repo> --target main --name church/final-parity --mess
 
 ## Output
 
+Every output must include the common gate record fields from `skills/church/references/gate-taxonomy.md`: evidence, failed criteria, risk owner, required next action, recheck command or artifact, and agent/user signoff status. Keep stage-specific sections below that record.
+
 ```markdown
 ## Branch Verdict
 Outcome:
