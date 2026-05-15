@@ -1,0 +1,35 @@
+{
+  "skill_name": "church",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Initialize a brownfield project with Repo Church. I want the moat defined by default, state tracked deterministically, and the result ready to integrate into the Repo Bible.",
+      "expected_output": "Uses the church init/moat workflow, creates or references state and moat artifacts, produces elevator-pitch and third-party moat summaries, and identifies Bible integration tasks.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "We have a repo-bible packet and a rough roadmap. Run Repo Church intake and identify what must be hardened before planning the next implementation phase.",
+      "expected_output": "Uses or explicitly skips CLI inventory/HTML intake, consumes Bible artifacts, emits intake anchors, produces a thin roadmap slice, and routes unverified assumptions to the hardening gate.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Review this phase plan against the Repo Church lifecycle. I want stricter acceptance criteria, research-backed assumptions, and a clear handoff for execution.",
+      "expected_output": "Produces anchor/spec gate findings, assumption confidence labels, closure tasks, validation/source/claim-scan usage notes, and an execution handoff with validation commands.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "The phase implementation is done. Run collaborative UAT and decide whether we can progress to the next phase or need mutual signoff.",
+      "expected_output": "Builds a UAT matrix from requirements, uses rendered HTML review when useful, records objective checks, identifies failures, and states whether agent/user mutual signoff is required.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Our GSD-style workflow is getting too slow and repetitive. Optimize the lifecycle while preserving the gates that prevent bad execution plans.",
+      "expected_output": "Maps redundant steps, replaces repeated broad reads with CLI/HTML workbench substitutions, proposes safe parallel streams, keeps reliability guardrails, and avoids removing high-value gates just to save time.",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repo Bible"
+  short_description: "Create repo doctrine packets"
+  default_prompt: "Use $repo-bible to create a complete repo Bible packet from local docs and current market research."

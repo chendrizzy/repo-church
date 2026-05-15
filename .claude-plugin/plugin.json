@@ -1,0 +1,16 @@
+{
+  "name": "repo-church",
+  "version": "0.1.0",
+  "description": "Agent-agnostic Repo Church skills and CLI for Bible-grounded lifecycle gates, moat definition, ledgers, context loading, and phase handoffs.",
+  "license": "MIT",
+  "commands": "./commands",
+  "agents": "./agents",
+  "keywords": [
+    "repo-bible",
+    "lifecycle",
+    "phase-gates",
+    "agent-skills",
+    "planning",
+    "verification"
+  ]
+}
