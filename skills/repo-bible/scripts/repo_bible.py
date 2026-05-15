@@ -518,7 +518,7 @@ def build_inventory(root: Path, walk_options: WalkOptions | None = None) -> dict
     git_status = git_output(root, ["status", "--short"]).splitlines()
 
     return {
-        "root": str(root),
+        "root": ".",
         "git_branch": git_output(root, ["branch", "--show-current"]),
         "git_status_short": filter_git_status(root, git_status, opts),
         "counts": {
@@ -831,8 +831,8 @@ def command_validate(args: argparse.Namespace) -> int:
     warning_count = sum(len(r["warnings"]) for r in results)
     id_policy_errors = len(unknown_ids)
     data = {
-        "root": str(root),
-        "packet": str(packet),
+        "root": ".",
+        "packet": rel(packet, root),
         "files_checked": len(results),
         "error_count": error_count,
         "warning_count": warning_count,

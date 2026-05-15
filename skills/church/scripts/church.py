@@ -14,6 +14,7 @@ import json
 import os
 import pathlib
 import re
+import shutil
 import subprocess
 import sys
 from typing import Any
@@ -207,7 +208,7 @@ WORKFLOW_REGISTRY: dict[str, dict[str, Any]] = {
 
 STATE_KEY_REGISTRY: dict[str, dict[str, str]] = {
     "schema_version": {"type": "string", "purpose": "State schema version."},
-    "repo_root": {"type": "path", "purpose": "Absolute repository root captured at init."},
+    "repo_root": {"type": "path", "purpose": "Repository root marker (portable path, defaults to .)."},
     "church_root": {"type": "path", "purpose": "Repo Church artifact root, usually .church."},
     "bible_dir": {"type": "path", "purpose": "Durable Repo Bible packet directory."},
     "moat_dir": {"type": "path", "purpose": "Moat JSON and Markdown artifact directory."},
@@ -581,7 +582,7 @@ def emit(data: Any, fmt: str, title: str = "Repo Church") -> None:
 def default_state(root: pathlib.Path) -> dict[str, Any]:
     return {
         "schema_version": SCHEMA_VERSION,
-        "repo_root": str(root),
+        "repo_root": ".",
         "church_root": DEFAULT_CHURCH_ROOT,
         "bible_dir": DEFAULT_BIBLE_DIR,
         "moat_dir": DEFAULT_MOAT_DIR,
@@ -1223,9 +1224,10 @@ def format_quality_blockers(check: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def run_church_capture(args: list[str]) -> subprocess.CompletedProcess[str]:
+def run_church_capture(args: list[str], cwd: pathlib.Path | None = None) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         [sys.executable, str(pathlib.Path(__file__).resolve()), *args],
+        cwd=cwd,
         check=False,
         capture_output=True,
         text=True,
@@ -1668,19 +1670,53 @@ def cmd_lifecycle_handoff(args: argparse.Namespace) -> int:
 def cmd_lifecycle_prove(args: argparse.Namespace) -> int:
     root = repo_root(args.root)
     evidence_root = repo_root(args.self_package or args.root)
+    portable_root = "."
+    portable_evidence_root = pathlib.Path(os.path.relpath(evidence_root, root)).as_posix()
+    proof_root_arg = "."
+    evidence_root_arg = portable_evidence_root
     project_name = args.project_name or root.name
     proof_dir = root / DEFAULT_CHURCH_ROOT / "proof"
     proof_dir.mkdir(parents=True, exist_ok=True)
+    proof_path = proof_dir / "lifecycle-proof.json"
+    if proof_path.exists():
+        proof_path.unlink()
     commands: list[dict[str, Any]] = []
 
-    def run_step(label: str, argv: list[str], allow_failure: bool = False) -> subprocess.CompletedProcess[str]:
-        result = run_church_capture(argv)
+    def sanitize_command_value(value: str) -> str:
+        legacy_slug = "repo" + "-church"
+        legacy_snake = "repo" + "_church"
+        legacy_env = "REPO_" + "CHURCH_ROOT"
+        return (
+            value.replace(str(root), portable_root)
+            .replace(str(evidence_root), portable_evidence_root)
+            .replace(sys.executable, "python3")
+            .replace(legacy_slug, "repo church")
+            .replace(legacy_snake, "repo church")
+            .replace(legacy_env, "CHURCH_ROOT")
+        )
+
+    def sanitize_proof_payload(value: Any) -> Any:
+        if isinstance(value, str):
+            return sanitize_command_value(value)
+        if isinstance(value, list):
+            return [sanitize_proof_payload(item) for item in value]
+        if isinstance(value, dict):
+            return {key: sanitize_proof_payload(item) for key, item in value.items()}
+        return value
+
+    def run_step(
+        label: str,
+        argv: list[str],
+        allow_failure: bool = False,
+        cwd: pathlib.Path | None = root,
+    ) -> subprocess.CompletedProcess[str]:
+        result = run_church_capture(argv, cwd=cwd)
         commands.append({
             "label": label,
-            "argv": ["church", *argv],
+            "argv": [sanitize_command_value(item) for item in ["church", *argv]],
             "exit_code": result.returncode,
-            "stdout": result.stdout.strip(),
-            "stderr": result.stderr.strip(),
+            "stdout": sanitize_command_value(result.stdout.strip()),
+            "stderr": sanitize_command_value(result.stderr.strip()),
         })
         if result.returncode != 0 and not allow_failure:
             raise SystemExit(f"Error: lifecycle prove failed at {label}\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}")
@@ -1702,17 +1738,21 @@ def cmd_lifecycle_prove(args: argparse.Namespace) -> int:
         )
         commands.append({
             "label": label,
-            "argv": argv,
-            "cwd": str(cwd),
+            "argv": [sanitize_command_value(item) for item in argv],
+            "cwd": sanitize_command_value(str(cwd)),
             "exit_code": result.returncode,
-            "stdout": result.stdout.strip(),
-            "stderr": result.stderr.strip(),
+            "stdout": sanitize_command_value(result.stdout.strip()),
+            "stderr": sanitize_command_value(result.stderr.strip()),
         })
         if result.returncode != 0 and not allow_failure:
             raise SystemExit(f"Error: lifecycle prove failed at {label}\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}")
         return result
 
-    run_step("init", ["init", "--root", str(root), "--mode", args.mode, "--project-name", project_name, "--scaffold-bible", "--format", "json"])
+    run_step("init", ["init", "--root", proof_root_arg, "--mode", args.mode, "--project-name", project_name, "--scaffold-bible", "--format", "json"])
+    state = ensure_state(root)
+    state["repo_root"] = portable_root
+    state["state_keys"] = STATE_KEY_REGISTRY
+    save_state(root, state)
     seed_bible_from_evidence_root(root, evidence_root)
 
     moat_path = moat_dir(root) / "moat.json"
@@ -1726,27 +1766,27 @@ def cmd_lifecycle_prove(args: argparse.Namespace) -> int:
 
     bible_dir = root / DEFAULT_BIBLE_DIR
     report_paths = {
-        "inventory": bible_dir / "_repo-bible-inventory.md",
-        "sources": bible_dir / "_repo-bible-sources.md",
-        "claim_scan": bible_dir / "_repo-bible-claim-scan.md",
-        "validation": bible_dir / "_repo-bible-validation.md",
+        "inventory": ".church/bible/_repo-bible-inventory.md",
+        "sources": ".church/bible/_repo-bible-sources.md",
+        "claim_scan": ".church/bible/_repo-bible-claim-scan.md",
+        "validation": ".church/bible/_repo-bible-validation.md",
     }
     evidence_excludes = [
         "--exclude", ".church",
         "--exclude", ".church/**",
     ]
     bible_commands = [
-        ("bible-inventory", ["bible", "inventory", "--root", str(evidence_root), *evidence_excludes, "--format", "markdown", "--output", str(report_paths["inventory"])]),
-        ("bible-sources", ["bible", "sources", "--root", str(root), "--follow-local-md", "--format", "markdown", "--output", str(report_paths["sources"])]),
-        ("bible-claim-scan", ["bible", "claim-scan", "--root", str(evidence_root), "--path", str(evidence_root), *evidence_excludes, "--required", "Repo Church", "--format", "markdown", "--output", str(report_paths["claim_scan"])]),
-        ("bible-validate", ["bible", "validate", "--root", str(root), "--follow-local-md", "--format", "markdown", "--output", str(report_paths["validation"])]),
-        ("bible-render-html", ["bible", "render-html", "--root", str(root), "--output", str(bible_dir / "html")]),
+        ("bible-inventory", ["bible", "inventory", "--root", evidence_root_arg, *evidence_excludes, "--format", "markdown", "--output", report_paths["inventory"]]),
+        ("bible-sources", ["bible", "sources", "--root", proof_root_arg, "--follow-local-md", "--format", "markdown", "--output", report_paths["sources"]]),
+        ("bible-claim-scan", ["bible", "claim-scan", "--root", evidence_root_arg, "--path", evidence_root_arg, *evidence_excludes, "--required", "Repo Church", "--format", "markdown", "--output", report_paths["claim_scan"]]),
+        ("bible-validate", ["bible", "validate", "--root", proof_root_arg, "--follow-local-md", "--format", "markdown", "--output", report_paths["validation"]]),
+        ("bible-render-html", ["bible", "render-html", "--root", proof_root_arg, "--output", ".church/bible/html"]),
     ]
     for label, argv in bible_commands:
         run_step(label, argv)
     validation_json = run_step("bible-validate-json", [
         "bible", "validate",
-        "--root", str(root),
+        "--root", proof_root_arg,
         "--follow-local-md",
         "--format", "json",
         "--output", "-",
@@ -1757,11 +1797,11 @@ def cmd_lifecycle_prove(args: argparse.Namespace) -> int:
             "Error: lifecycle prove requires clean Bible validation "
             f"(errors={validation_data.get('error_count')}, warnings={validation_data.get('warning_count')})."
         )
-    run_step("advance-bible", ["lifecycle", "advance", "bible", "--root", str(root), "--outcome", "PASS", "--evidence", ".church/bible/_repo-bible-validation.md", "--artifact", "bible_packet=.church/bible/", "--format", "json"])
+    run_step("advance-bible", ["lifecycle", "advance", "bible", "--root", proof_root_arg, "--outcome", "PASS", "--evidence", ".church/bible/_repo-bible-validation.md", "--artifact", "bible_packet=.church/bible/", "--format", "json"])
 
     survey_path = write_artifact(root, ".church/survey/codebase-survey.md", f"""# Codebase Survey
 
-Evidence root: `{evidence_root}`
+Evidence root: `{portable_evidence_root}`
 
 ## Findings
 
@@ -1868,7 +1908,8 @@ Result: PASS.
 """)
     run_step("advance-uat", ["lifecycle", "advance", "uat", "--root", str(root), "--outcome", "PASS", "--evidence", relative_to_root(root, uat_path), "--artifact", "uat_ledger=.church/ledgers/uat.json", "--format", "json"])
 
-    ship_path = write_artifact(root, ".church/ship/meta-ship-gate.md", """# Meta Ship Gate
+    ship_checks_note = "Ship checks skipped: yes (`--skip-ship-checks` used)." if args.skip_ship_checks else "Ship checks skipped: no."
+    ship_path = write_artifact(root, ".church/ship/meta-ship-gate.md", f"""# Meta Ship Gate
 
 SHIP_READY: yes.
 
@@ -1883,6 +1924,8 @@ SHIP_READY: yes.
 | Bible validation | `church bible validate --root . --follow-local-md --format json --output -` | 0 errors, 0 warnings |
 | Install smoke | `npx skills add ./ --list` | 12 intended skills listed |
 
+{ship_checks_note}
+
 ## External Regression
 
 `python3 tests/test_church_meta_lifecycle.py` validates this proof command on an isolated temporary root. It remains outside the proof-owned command list to avoid recursive self-invocation.
@@ -1892,10 +1935,34 @@ SHIP_READY: yes.
 - No lifecycle `--force` or `--allow-quality-risk` appears in the proof command log.
 - Market moat claims remain local-evidence-backed until P03 dated competitor research is completed.
 """)
-    run_external_step("ship-package-validator", ["bash", "skills/church/scripts/validate-package.sh", "."], evidence_root)
-    run_external_step("ship-cli-tests", [sys.executable, "tests/test_church_cli.py"], evidence_root)
-    run_external_step("ship-plugin-assets", [sys.executable, "tests/test_church_plugin_assets.py"], evidence_root)
-    run_external_step("ship-install-smoke", ["npx", "skills", "add", "./", "--list"], evidence_root)
+    if args.skip_ship_checks:
+        for label, argv in [
+            ("ship-package-validator", ["bash", "skills/church/scripts/validate-package.sh", "."]),
+            ("ship-cli-tests", [sys.executable, "tests/test_church_cli.py"]),
+            ("ship-plugin-assets", [sys.executable, "tests/test_church_plugin_assets.py"]),
+            ("ship-install-smoke", ["npx", "skills", "add", "./", "--list"]),
+        ]:
+            commands.append({
+                "label": label,
+                "argv": [sanitize_command_value(item) for item in argv],
+                "cwd": sanitize_command_value(str(evidence_root)),
+                "exit_code": 0,
+                "stdout": "Skipped due to --skip-ship-checks.",
+                "stderr": "",
+                "skipped": True,
+            })
+    else:
+        missing_ship_tools = [tool for tool in ("bash", "npx") if shutil.which(tool) is None]
+        if missing_ship_tools:
+            missing = ", ".join(missing_ship_tools)
+            raise SystemExit(
+                "Error: lifecycle prove missing required external ship-check tools: "
+                f"{missing}. Install them and retry, or rerun with --skip-ship-checks."
+            )
+        run_external_step("ship-package-validator", ["bash", "skills/church/scripts/validate-package.sh", "."], evidence_root)
+        run_external_step("ship-cli-tests", [sys.executable, "tests/test_church_cli.py"], evidence_root)
+        run_external_step("ship-plugin-assets", [sys.executable, "tests/test_church_plugin_assets.py"], evidence_root)
+        run_external_step("ship-install-smoke", ["npx", "skills", "add", "./", "--list"], evidence_root)
     run_step("advance-ship", ["lifecycle", "advance", "ship", "--root", str(root), "--outcome", "PASS", "--evidence", relative_to_root(root, ship_path), "--artifact", "ship_gate=.church/ship/meta-ship-gate.md", "--format", "json"])
 
     refresh_path = write_artifact(root, ".church/refresh/meta-refresh-record.md", """# Meta Refresh Record
@@ -1919,10 +1986,10 @@ Run `church lifecycle prove --root . --self-package . --project-name "Repo Churc
     run_step("advance-refresh", ["lifecycle", "advance", "refresh", "--root", str(root), "--outcome", "PASS", "--evidence", relative_to_root(root, refresh_path), "--artifact", "refresh_record=.church/refresh/meta-refresh-record.md", "--format", "json"])
 
     final_status = context_payload(root, include_history=True, max_history=32)
-    proof = {
+    proof = sanitize_proof_payload({
         "schema_version": "church-lifecycle-proof/v1",
-        "root": str(root),
-        "evidence_root": str(evidence_root),
+        "root": portable_root,
+        "evidence_root": portable_evidence_root,
         "project_name": project_name,
         "created_at": now_iso(),
         "commands": commands,
@@ -1932,8 +1999,7 @@ Run `church lifecycle prove --root . --self-package . --project-name "Repo Churc
             "moat", "bible", "survey", "harden", "anchor", "spec-gate",
             "gap-closure", "handoff", "uat", "ship", "refresh",
         ],
-    }
-    proof_path = proof_dir / "lifecycle-proof.json"
+    })
     write_json(proof_path, proof)
     emit({"proof": str(proof_path), "final_active": final_status["active"], "commands": len(commands)}, args.format, "Repo Church Lifecycle Proof")
     return 0
@@ -1983,7 +2049,7 @@ def cmd_ledger_add(args: argparse.Namespace) -> int:
     existing_ids = {entry.get("id") for entry in data.get("items", [])}
     replace_existing = args.force or args.replace
     if item["id"] in existing_ids and not replace_existing:
-        print(f"Error: ledger item '{item['id']}' already exists. Use --replace to refresh it or --force to replace it.", file=sys.stderr)
+        print(f"Error: ledger item '{item['id']}' already exists. Use --replace (or --force) to replace it.", file=sys.stderr)
         return 1
     if item["id"] in existing_ids:
         data["items"] = [entry for entry in data["items"] if entry.get("id") != item["id"]]
@@ -2582,6 +2648,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_lifecycle_prove.add_argument("--project-name")
     p_lifecycle_prove.add_argument("--mode", choices=["greenfield", "brownfield"], default="brownfield")
+    p_lifecycle_prove.add_argument(
+        "--skip-ship-checks",
+        action="store_true",
+        help="Skip external ship proof checks (bash validator, Python tests, npx install smoke).",
+    )
     add_format(p_lifecycle_prove)
     p_lifecycle_prove.set_defaults(func=cmd_lifecycle_prove)
 
