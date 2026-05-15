@@ -91,6 +91,13 @@ Keep user-facing docs under `docs/`. Keep machine-consumed skill references insi
 
 Repo Church deliberately avoids binding the package to one agent runtime. Runtime-specific wrappers can exist in consuming projects, but the package source should remain portable and installable as a skills.sh-style package.
 
+## skills.sh distribution
+
+- Canonical global install: `npx skills add chendrizzy/repo-church --all -g`
+- Listing on [skills.sh](https://skills.sh) is driven by install telemetry from the `skills` CLI, not by a separate submit step. The repo must be **public** on GitHub so others can install from `owner/repo`.
+- After the first deduplicated install, skill pages and search may take a few minutes to appear. Verify with `npx skills search repo-church` or the [API](https://skills.sh/docs/api).
+- Maintainer checklist: public repo, README badge linking `https://skills.sh/chendrizzy/repo-church`, run a local non-CI install without `DISABLE_TELEMETRY` / `DO_NOT_TRACK`. User-facing detail: [Getting Started — Install telemetry](getting-started.md#install-telemetry-skills-sh-leaderboard).
+
 ## Related Docs
 
 - [Reference Index](reference-index.md)

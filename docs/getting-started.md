@@ -4,6 +4,24 @@ This guide gets a new user from install to a useful first Repo Church interactio
 
 ## 1. Install The Package
 
+### Global install (skills.sh)
+
+Install all skills into your agent home from the public GitHub source:
+
+```bash
+npx skills add chendrizzy/repo-church --all -g
+```
+
+Package page (appears after the first deduplicated install event is recorded): [skills.sh/chendrizzy/repo-church](https://skills.sh/chendrizzy/repo-church).
+
+For the smallest useful global install:
+
+```bash
+npx skills add chendrizzy/repo-church --skill repo-bible --skill church -g
+```
+
+### Local checkout
+
 From a parent checkout that contains this package:
 
 ```bash
@@ -16,13 +34,25 @@ From this package root:
 npx skills add . --all
 ```
 
-For the smallest useful install:
+For the smallest useful local install:
 
 ```bash
 npx skills add . --skill repo-bible --skill church
 ```
 
 `repo-bible` creates and maintains the durable doctrine packet. `church` routes the planning, hardening, handoff, UAT, ship, and refresh lifecycle around it.
+
+### Install telemetry (skills.sh leaderboard)
+
+The open-source `skills` CLI sends anonymous install events to skills.sh so packages can appear on the leaderboard and skill pages. Events include the skill source (`owner/repo`), agent name, and a coarse timestamp. Prompts, file contents, and personal data are not collected. See [skills.sh privacy](https://skills.sh/privacy).
+
+| Goal | What to do |
+| --- | --- |
+| Credit installs on the leaderboard | Run `npx skills add chendrizzy/repo-church ...` with telemetry **enabled** (default). Do not set opt-out env vars below. |
+| Opt out of telemetry | `export DISABLE_TELEMETRY=1` or `export DO_NOT_TRACK=1` before install. Installs still work; they are not counted. |
+| CI / automation | Telemetry is skipped automatically when `CI`, `GITHUB_ACTIONS`, or similar CI env vars are set. Use a normal local shell for the install that should register on skills.sh. |
+
+Local path installs (`npx skills add .`) do not attribute leaderboard credit to `chendrizzy/repo-church`; use the `chendrizzy/repo-church` source slug (or the GitHub URL) for listing credit.
 
 ## 2. Pick Your Project Mode
 

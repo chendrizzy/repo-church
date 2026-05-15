@@ -1,5 +1,7 @@
 # Repo Church Agent Skills
 
+[![skills.sh](https://skills.sh/b/chendrizzy/repo-church)](https://skills.sh/chendrizzy/repo-church)
+
 Repo Church is an agent-agnostic skill package for Bible-grounded repository planning, phase chaining, gap closure, and collaborative verification.
 
 It helps agents and humans turn a durable Repo Bible into executable work: first clarify the product doctrine, then validate assumptions, plan phases, hand off execution, verify outcomes, and refresh the source of truth.
@@ -16,6 +18,18 @@ If you are new to Repo Church, follow the docs in this order:
 The README is intentionally short. The detailed command, skill, agent, CLI, validation, and reference docs live under [docs/](docs/INDEX.md).
 
 ## Install
+
+Global install from GitHub (skills.sh leaderboard uses install telemetry from this path):
+
+```bash
+npx skills add chendrizzy/repo-church --all -g
+```
+
+Equivalent full URL:
+
+```bash
+npx skills add https://github.com/chendrizzy/repo-church --all -g
+```
 
 From a parent checkout that contains this package:
 
