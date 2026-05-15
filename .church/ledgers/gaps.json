@@ -3,7 +3,7 @@
     {
       "acceptance_test": "tests/test_church_meta_lifecycle.py",
       "blocks_progression": false,
-      "created_at": "2026-05-15T12:55:50+00:00",
+      "created_at": "2026-05-15T14:05:55+00:00",
       "evidence": ".church/bible/alignment-audit.md",
       "id": "GAP-META-001",
       "owner": "agent",
@@ -12,11 +12,11 @@
       "severity": "high",
       "status": "satisfied",
       "summary": "Full lifecycle proof was absent before this meta run",
-      "updated_at": "2026-05-15T12:55:50+00:00",
+      "updated_at": "2026-05-15T14:05:55+00:00",
       "workflow": null
     }
   ],
   "kind": "gaps",
   "schema_version": "church-ledger/v1",
-  "updated_at": "2026-05-15T12:55:50+00:00"
+  "updated_at": "2026-05-15T14:05:55+00:00"
 }

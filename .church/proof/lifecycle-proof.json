@@ -18,7 +18,7 @@
         "church",
         "init",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--mode",
         "brownfield",
         "--project-name",
@@ -30,7 +30,7 @@
       "exit_code": 0,
       "label": "init",
       "stderr": "",
-      "stdout": "{\n  \"bible_scaffold\": {\n    \"command\": \"church bible scaffold\",\n    \"exit_code\": 0,\n    \"stderr\": \"\",\n    \"stdout\": \"{\\n  \\\"repo_root\\\": \\\"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church\\\",\\n  \\\"church_root\\\": \\\"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church\\\",\\n  \\\"output_dir\\\": \\\"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/bible\\\",\\n  \\\"created\\\": [],\\n  \\\"skipped\\\": [\\n    \\\"README.md\\\",\\n    \\\"success-requirements.md\\\",\\n    \\\"market-watchlist.md\\\",\\n    \\\"principles-doctrine.md\\\",\\n    \\\"architecture-map.md\\\",\\n    \\\"design-doctrine.md\\\",\\n    \\\"ux-workflows.md\\\",\\n    \\\"persona-gtm.md\\\",\\n    \\\"roadmap.md\\\",\\n    \\\"alignment-audit.md\\\",\\n    \\\"validation-report.md\\\"\\n  ]\\n}\"\n  },\n  \"moat\": {\n    \"exists\": true,\n    \"moat_json\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/moat/moat.json\",\n    \"moat_md\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/moat/moat.md\"\n  },\n  \"mode\": \"brownfield\",\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"bible_scaffold\": {\n    \"command\": \"church bible scaffold\",\n    \"exit_code\": 0,\n    \"stderr\": \"\",\n    \"stdout\": \"{\\n  \\\"repo_root\\\": \\\".\\\",\\n  \\\"church_root\\\": \\\"./.church\\\",\\n  \\\"output_dir\\\": \\\"./.church/bible\\\",\\n  \\\"created\\\": [],\\n  \\\"skipped\\\": [\\n    \\\"README.md\\\",\\n    \\\"success-requirements.md\\\",\\n    \\\"market-watchlist.md\\\",\\n    \\\"principles-doctrine.md\\\",\\n    \\\"architecture-map.md\\\",\\n    \\\"design-doctrine.md\\\",\\n    \\\"ux-workflows.md\\\",\\n    \\\"persona-gtm.md\\\",\\n    \\\"roadmap.md\\\",\\n    \\\"alignment-audit.md\\\",\\n    \\\"validation-report.md\\\"\\n  ]\\n}\"\n  },\n  \"moat\": {\n    \"exists\": true,\n    \"moat_json\": \"./.church/moat/moat.json\",\n    \"moat_md\": \"./.church/moat/moat.md\"\n  },\n  \"mode\": \"brownfield\",\n  \"state\": \"./.church/state.json\"\n}"
     },
     {
       "argv": [
@@ -38,14 +38,14 @@
         "moat",
         "render",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--format",
         "json"
       ],
       "exit_code": 0,
       "label": "moat-render",
       "stderr": "",
-      "stdout": "{\n  \"moat_md\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/moat/moat.md\"\n}"
+      "stdout": "{\n  \"moat_md\": \"./.church/moat/moat.md\"\n}"
     },
     {
       "argv": [
@@ -53,7 +53,7 @@
         "moat",
         "check",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--format",
         "json"
       ],
@@ -69,7 +69,7 @@
         "advance",
         "moat",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--outcome",
         "PASS",
         "--evidence",
@@ -80,7 +80,7 @@
       "exit_code": 0,
       "label": "advance-moat",
       "stderr": "",
-      "stdout": "{\n  \"active\": {\n    \"gate\": \"moat\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": null,\n    \"stage\": \"moat-definition\",\n    \"workflow\": \"moat\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"active\": {\n    \"gate\": \"moat\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"moat-definition\",\n    \"workflow\": \"moat\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"./.church/state.json\"\n}"
     },
     {
       "argv": [
@@ -88,7 +88,7 @@
         "bible",
         "inventory",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--exclude",
         ".church",
         "--exclude",
@@ -96,7 +96,7 @@
         "--format",
         "markdown",
         "--output",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/bible/_repo-bible-inventory.md"
+        ".church/bible/_repo-bible-inventory.md"
       ],
       "exit_code": 0,
       "label": "bible-inventory",
@@ -109,12 +109,12 @@
         "bible",
         "sources",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--follow-local-md",
         "--format",
         "markdown",
         "--output",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/bible/_repo-bible-sources.md"
+        ".church/bible/_repo-bible-sources.md"
       ],
       "exit_code": 0,
       "label": "bible-sources",
@@ -127,9 +127,9 @@
         "bible",
         "claim-scan",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--path",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--exclude",
         ".church",
         "--exclude",
@@ -139,7 +139,7 @@
         "--format",
         "markdown",
         "--output",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/bible/_repo-bible-claim-scan.md"
+        ".church/bible/_repo-bible-claim-scan.md"
       ],
       "exit_code": 0,
       "label": "bible-claim-scan",
@@ -152,12 +152,12 @@
         "bible",
         "validate",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--follow-local-md",
         "--format",
         "markdown",
         "--output",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/bible/_repo-bible-validation.md"
+        ".church/bible/_repo-bible-validation.md"
       ],
       "exit_code": 0,
       "label": "bible-validate",
@@ -170,14 +170,14 @@
         "bible",
         "render-html",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--output",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/bible/html"
+        ".church/bible/html"
       ],
       "exit_code": 0,
       "label": "bible-render-html",
       "stderr": "",
-      "stdout": "{\n  \"output_dir\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/bible/html\",\n  \"pages\": [\n    {\n      \"source\": \".church/bible/README.md\",\n      \"html\": \"README.html\",\n      \"title\": \"Repo Church Meta Bible\",\n      \"headings\": [\n        [\n          1,\n          \"Repo Church Meta Bible\",\n          \"repo-church-meta-bible\"\n        ],\n        [\n          2,\n          \"Canonical Position\",\n          \"canonical-position\"\n        ],\n        [\n          2,\n          \"Packet Index\",\n          \"packet-index\"\n        ],\n        [\n          2,\n          \"Non-Negotiable Gates\",\n          \"non-negotiable-gates\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/alignment-audit.md\",\n      \"html\": \"alignment-audit.html\",\n      \"title\": \"Alignment Audit\",\n      \"headings\": [\n        [\n          1,\n          \"Alignment Audit\",\n          \"alignment-audit\"\n        ],\n        [\n          2,\n          \"Summary\",\n          \"summary\"\n        ],\n        [\n          2,\n          \"Findings\",\n          \"findings\"\n        ],\n        [\n          2,\n          \"Closure Items\",\n          \"closure-items\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/architecture-map.md\",\n      \"html\": \"architecture-map.html\",\n      \"title\": \"Architecture Map\",\n      \"headings\": [\n        [\n          1,\n          \"Architecture Map\",\n          \"architecture-map\"\n        ],\n        [\n          2,\n          \"Whole-System Map\",\n          \"whole-system-map\"\n        ],\n        [\n          2,\n          \"Component Matrix\",\n          \"component-matrix\"\n        ],\n        [\n          2,\n          \"Interfaces\",\n          \"interfaces\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/design-doctrine.md\",\n      \"html\": \"design-doctrine.html\",\n      \"title\": \"Design Doctrine\",\n      \"headings\": [\n        [\n          1,\n          \"Design Doctrine\",\n          \"design-doctrine\"\n        ],\n        [\n          2,\n          \"Product Experience Promise\",\n          \"product-experience-promise\"\n        ],\n        [\n          2,\n          \"Design Non-Negotiables\",\n          \"design-non-negotiables\"\n        ],\n        [\n          2,\n          \"Core Surfaces\",\n          \"core-surfaces\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/market-watchlist.md\",\n      \"html\": \"market-watchlist.html\",\n      \"title\": \"Market Landscape and Watchlist\",\n      \"headings\": [\n        [\n          1,\n          \"Market Landscape and Watchlist\",\n          \"market-landscape-and-watchlist\"\n        ],\n        [\n          2,\n          \"Landscape Summary\",\n          \"landscape-summary\"\n        ],\n        [\n          2,\n          \"Threat and Opportunity Matrix\",\n          \"threat-and-opportunity-matrix\"\n        ],\n        [\n          2,\n          \"Gaps and Biggest Opportunities\",\n          \"gaps-and-biggest-opportunities\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/persona-gtm.md\",\n      \"html\": \"persona-gtm.html\",\n      \"title\": \"Persona and Go-To-Market Plan\",\n      \"headings\": [\n        [\n          1,\n          \"Persona and Go-To-Market Plan\",\n          \"persona-and-go-to-market-plan\"\n        ],\n        [\n          2,\n          \"Target Persona\",\n          \"target-persona\"\n        ],\n        [\n          2,\n          \"Product-Market Fit Hypothesis\",\n          \"product-market-fit-hypothesis\"\n        ],\n        [\n          2,\n          \"Acquisition Plays\",\n          \"acquisition-plays\"\n        ],\n        [\n          2,\n          \"GTM Timeline\",\n          \"gtm-timeline\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/principles-doctrine.md\",\n      \"html\": \"principles-doctrine.html\",\n      \"title\": \"Principles Doctrine\",\n      \"headings\": [\n        [\n          1,\n          \"Principles Doctrine\",\n          \"principles-doctrine\"\n        ],\n        [\n          2,\n          \"Decision Rules\",\n          \"decision-rules\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/roadmap.md\",\n      \"html\": \"roadmap.html\",\n      \"title\": \"Optimized Roadmap\",\n      \"headings\": [\n        [\n          1,\n          \"Optimized Roadmap\",\n          \"optimized-roadmap\"\n        ],\n        [\n          2,\n          \"Phase Details\",\n          \"phase-details\"\n        ],\n        [\n          3,\n          \"P01: Self-Hosted Lifecycle Proof\",\n          \"p01-self-hosted-lifecycle-proof\"\n        ],\n        [\n          3,\n          \"P02: Public Onboarding\",\n          \"p02-public-onboarding\"\n        ],\n        [\n          3,\n          \"P03: Market Refresh\",\n          \"p03-market-refresh\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/success-requirements.md\",\n      \"html\": \"success-requirements.html\",\n      \"title\": \"Success Requirements\",\n      \"headings\": [\n        [\n          1,\n          \"Success Requirements\",\n          \"success-requirements\"\n        ],\n        [\n          2,\n          \"Lifecycle Gates\",\n          \"lifecycle-gates\"\n        ],\n        [\n          2,\n          \"Requirements Checklist\",\n          \"requirements-checklist\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/ux-workflows.md\",\n      \"html\": \"ux-workflows.html\",\n      \"title\": \"UX Workflows and Must-Pass Cases\",\n      \"headings\": [\n        [\n          1,\n          \"UX Workflows and Must-Pass Cases\",\n          \"ux-workflows-and-must-pass-cases\"\n        ],\n        [\n          2,\n          \"Non-Negotiables\",\n          \"non-negotiables\"\n        ],\n        [\n          2,\n          \"Must-Pass Cases\",\n          \"must-pass-cases\"\n        ],\n        [\n          2,\n          \"Journey Map\",\n          \"journey-map\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/validation-report.md\",\n      \"html\": \"validation-report.html\",\n      \"title\": \"Repo Bible Validation Report\",\n      \"headings\": [\n        [\n          1,\n          \"Repo Bible Validation Report\",\n          \"repo-bible-validation-report\"\n        ],\n        [\n          2,\n          \"Result\",\n          \"result\"\n        ],\n        [\n          2,\n          \"Coverage\",\n          \"coverage\"\n        ],\n        [\n          2,\n          \"Checks Run\",\n          \"checks-run\"\n        ],\n        [\n          2,\n          \"Caveats\",\n          \"caveats\"\n        ]\n      ]\n    }\n  ]\n}"
+      "stdout": "{\n  \"output_dir\": \"./.church/bible/html\",\n  \"pages\": [\n    {\n      \"source\": \".church/bible/README.md\",\n      \"html\": \"README.html\",\n      \"title\": \"Repo Church Meta Bible\",\n      \"headings\": [\n        [\n          1,\n          \"Repo Church Meta Bible\",\n          \"repo church-meta-bible\"\n        ],\n        [\n          2,\n          \"Canonical Position\",\n          \"canonical-position\"\n        ],\n        [\n          2,\n          \"Packet Index\",\n          \"packet-index\"\n        ],\n        [\n          2,\n          \"Non-Negotiable Gates\",\n          \"non-negotiable-gates\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/alignment-audit.md\",\n      \"html\": \"alignment-audit.html\",\n      \"title\": \"Alignment Audit\",\n      \"headings\": [\n        [\n          1,\n          \"Alignment Audit\",\n          \"alignment-audit\"\n        ],\n        [\n          2,\n          \"Summary\",\n          \"summary\"\n        ],\n        [\n          2,\n          \"Findings\",\n          \"findings\"\n        ],\n        [\n          2,\n          \"Closure Items\",\n          \"closure-items\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/architecture-map.md\",\n      \"html\": \"architecture-map.html\",\n      \"title\": \"Architecture Map\",\n      \"headings\": [\n        [\n          1,\n          \"Architecture Map\",\n          \"architecture-map\"\n        ],\n        [\n          2,\n          \"Whole-System Map\",\n          \"whole-system-map\"\n        ],\n        [\n          2,\n          \"Component Matrix\",\n          \"component-matrix\"\n        ],\n        [\n          2,\n          \"Interfaces\",\n          \"interfaces\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/design-doctrine.md\",\n      \"html\": \"design-doctrine.html\",\n      \"title\": \"Design Doctrine\",\n      \"headings\": [\n        [\n          1,\n          \"Design Doctrine\",\n          \"design-doctrine\"\n        ],\n        [\n          2,\n          \"Product Experience Promise\",\n          \"product-experience-promise\"\n        ],\n        [\n          2,\n          \"Design Non-Negotiables\",\n          \"design-non-negotiables\"\n        ],\n        [\n          2,\n          \"Core Surfaces\",\n          \"core-surfaces\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/market-watchlist.md\",\n      \"html\": \"market-watchlist.html\",\n      \"title\": \"Market Landscape and Watchlist\",\n      \"headings\": [\n        [\n          1,\n          \"Market Landscape and Watchlist\",\n          \"market-landscape-and-watchlist\"\n        ],\n        [\n          2,\n          \"Landscape Summary\",\n          \"landscape-summary\"\n        ],\n        [\n          2,\n          \"Threat and Opportunity Matrix\",\n          \"threat-and-opportunity-matrix\"\n        ],\n        [\n          2,\n          \"Gaps and Biggest Opportunities\",\n          \"gaps-and-biggest-opportunities\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/persona-gtm.md\",\n      \"html\": \"persona-gtm.html\",\n      \"title\": \"Persona and Go-To-Market Plan\",\n      \"headings\": [\n        [\n          1,\n          \"Persona and Go-To-Market Plan\",\n          \"persona-and-go-to-market-plan\"\n        ],\n        [\n          2,\n          \"Target Persona\",\n          \"target-persona\"\n        ],\n        [\n          2,\n          \"Product-Market Fit Hypothesis\",\n          \"product-market-fit-hypothesis\"\n        ],\n        [\n          2,\n          \"Acquisition Plays\",\n          \"acquisition-plays\"\n        ],\n        [\n          2,\n          \"GTM Timeline\",\n          \"gtm-timeline\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/principles-doctrine.md\",\n      \"html\": \"principles-doctrine.html\",\n      \"title\": \"Principles Doctrine\",\n      \"headings\": [\n        [\n          1,\n          \"Principles Doctrine\",\n          \"principles-doctrine\"\n        ],\n        [\n          2,\n          \"Decision Rules\",\n          \"decision-rules\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/roadmap.md\",\n      \"html\": \"roadmap.html\",\n      \"title\": \"Optimized Roadmap\",\n      \"headings\": [\n        [\n          1,\n          \"Optimized Roadmap\",\n          \"optimized-roadmap\"\n        ],\n        [\n          2,\n          \"Phase Details\",\n          \"phase-details\"\n        ],\n        [\n          3,\n          \"P01: Self-Hosted Lifecycle Proof\",\n          \"p01-self-hosted-lifecycle-proof\"\n        ],\n        [\n          3,\n          \"P02: Public Onboarding\",\n          \"p02-public-onboarding\"\n        ],\n        [\n          3,\n          \"P03: Market Refresh\",\n          \"p03-market-refresh\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/success-requirements.md\",\n      \"html\": \"success-requirements.html\",\n      \"title\": \"Success Requirements\",\n      \"headings\": [\n        [\n          1,\n          \"Success Requirements\",\n          \"success-requirements\"\n        ],\n        [\n          2,\n          \"Lifecycle Gates\",\n          \"lifecycle-gates\"\n        ],\n        [\n          2,\n          \"Requirements Checklist\",\n          \"requirements-checklist\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/ux-workflows.md\",\n      \"html\": \"ux-workflows.html\",\n      \"title\": \"UX Workflows and Must-Pass Cases\",\n      \"headings\": [\n        [\n          1,\n          \"UX Workflows and Must-Pass Cases\",\n          \"ux-workflows-and-must-pass-cases\"\n        ],\n        [\n          2,\n          \"Non-Negotiables\",\n          \"non-negotiables\"\n        ],\n        [\n          2,\n          \"Must-Pass Cases\",\n          \"must-pass-cases\"\n        ],\n        [\n          2,\n          \"Journey Map\",\n          \"journey-map\"\n        ]\n      ]\n    },\n    {\n      \"source\": \".church/bible/validation-report.md\",\n      \"html\": \"validation-report.html\",\n      \"title\": \"Repo Bible Validation Report\",\n      \"headings\": [\n        [\n          1,\n          \"Repo Bible Validation Report\",\n          \"repo-bible-validation-report\"\n        ],\n        [\n          2,\n          \"Result\",\n          \"result\"\n        ],\n        [\n          2,\n          \"Coverage\",\n          \"coverage\"\n        ],\n        [\n          2,\n          \"Checks Run\",\n          \"checks-run\"\n        ],\n        [\n          2,\n          \"Caveats\",\n          \"caveats\"\n        ]\n      ]\n    }\n  ]\n}"
     },
     {
       "argv": [
@@ -185,7 +185,7 @@
         "bible",
         "validate",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--follow-local-md",
         "--format",
         "json",
@@ -195,7 +195,7 @@
       "exit_code": 0,
       "label": "bible-validate-json",
       "stderr": "",
-      "stdout": "{\n  \"root\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church\",\n  \"packet\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/bible\",\n  \"files_checked\": 11,\n  \"error_count\": 0,\n  \"warning_count\": 0,\n  \"missing_expected_artifact_terms\": [],\n  \"requirement_id_count\": 24,\n  \"requirement_ids\": [\n    \"AA-01\",\n    \"AA-02\",\n    \"AA-03\",\n    \"AA-04\",\n    \"DD-01\",\n    \"DD-02\",\n    \"DD-03\",\n    \"DD-04\",\n    \"DD-05\",\n    \"PR-01\",\n    \"PR-02\",\n    \"PR-03\",\n    \"PR-04\",\n    \"PR-05\",\n    \"SR-01\",\n    \"SR-02\",\n    \"SR-03\",\n    \"SR-04\",\n    \"SR-05\",\n    \"UX-01\",\n    \"UX-02\",\n    \"UX-03\",\n    \"UX-04\",\n    \"UX-05\"\n  ],\n  \"requirement_ids_allowed\": [],\n  \"requirement_ids_unknown\": [],\n  \"link_traversal\": {\n    \"mode\": \"expanded\",\n    \"max_depth\": 3,\n    \"seed_files\": [\n      \".church/bible/README.md\",\n      \".church/bible/alignment-audit.md\",\n      \".church/bible/architecture-map.md\",\n      \".church/bible/design-doctrine.md\",\n      \".church/bible/market-watchlist.md\",\n      \".church/bible/persona-gtm.md\",\n      \".church/bible/principles-doctrine.md\",\n      \".church/bible/roadmap.md\",\n      \".church/bible/success-requirements.md\",\n      \".church/bible/ux-workflows.md\",\n      \".church/bible/validation-report.md\"\n    ],\n    \"expanded_files\": [\n      \".church/bible/README.md\",\n      \".church/bible/alignment-audit.md\",\n      \".church/bible/architecture-map.md\",\n      \".church/bible/design-doctrine.md\",\n      \".church/bible/market-watchlist.md\",\n      \".church/bible/persona-gtm.md\",\n      \".church/bible/principles-doctrine.md\",\n      \".church/bible/roadmap.md\",\n      \".church/bible/success-requirements.md\",\n      \".church/bible/ux-workflows.md\",\n      \".church/bible/validation-report.md\"\n    ]\n  },\n  \"results\": [\n    {\n      \"path\": \".church/bible/README.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-02\",\n        \"SR-03\",\n        \"SR-04\",\n        \"SR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/alignment-audit.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"AA-01\",\n        \"AA-02\",\n        \"AA-03\",\n        \"AA-04\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/architecture-map.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-02\",\n        \"SR-03\",\n        \"SR-04\",\n        \"SR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/design-doctrine.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"DD-01\",\n        \"DD-02\",\n        \"DD-03\",\n        \"DD-04\",\n        \"DD-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/market-watchlist.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/persona-gtm.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/principles-doctrine.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"PR-01\",\n        \"PR-02\",\n        \"PR-03\",\n        \"PR-04\",\n        \"PR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/roadmap.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-02\",\n        \"SR-03\",\n        \"SR-04\",\n        \"SR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/success-requirements.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-02\",\n        \"SR-03\",\n        \"SR-04\",\n        \"SR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/ux-workflows.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-02\",\n        \"SR-04\",\n        \"SR-05\",\n        \"UX-01\",\n        \"UX-02\",\n        \"UX-03\",\n        \"UX-04\",\n        \"UX-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/validation-report.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"AA-04\"\n      ],\n      \"urls\": []\n    }\n  ]\n}"
+      "stdout": "{\n  \"root\": \".\",\n  \"packet\": \".church/bible\",\n  \"files_checked\": 11,\n  \"error_count\": 0,\n  \"warning_count\": 0,\n  \"missing_expected_artifact_terms\": [],\n  \"requirement_id_count\": 24,\n  \"requirement_ids\": [\n    \"AA-01\",\n    \"AA-02\",\n    \"AA-03\",\n    \"AA-04\",\n    \"DD-01\",\n    \"DD-02\",\n    \"DD-03\",\n    \"DD-04\",\n    \"DD-05\",\n    \"PR-01\",\n    \"PR-02\",\n    \"PR-03\",\n    \"PR-04\",\n    \"PR-05\",\n    \"SR-01\",\n    \"SR-02\",\n    \"SR-03\",\n    \"SR-04\",\n    \"SR-05\",\n    \"UX-01\",\n    \"UX-02\",\n    \"UX-03\",\n    \"UX-04\",\n    \"UX-05\"\n  ],\n  \"requirement_ids_allowed\": [],\n  \"requirement_ids_unknown\": [],\n  \"link_traversal\": {\n    \"mode\": \"expanded\",\n    \"max_depth\": 3,\n    \"seed_files\": [\n      \".church/bible/README.md\",\n      \".church/bible/alignment-audit.md\",\n      \".church/bible/architecture-map.md\",\n      \".church/bible/design-doctrine.md\",\n      \".church/bible/market-watchlist.md\",\n      \".church/bible/persona-gtm.md\",\n      \".church/bible/principles-doctrine.md\",\n      \".church/bible/roadmap.md\",\n      \".church/bible/success-requirements.md\",\n      \".church/bible/ux-workflows.md\",\n      \".church/bible/validation-report.md\"\n    ],\n    \"expanded_files\": [\n      \".church/bible/README.md\",\n      \".church/bible/alignment-audit.md\",\n      \".church/bible/architecture-map.md\",\n      \".church/bible/design-doctrine.md\",\n      \".church/bible/market-watchlist.md\",\n      \".church/bible/persona-gtm.md\",\n      \".church/bible/principles-doctrine.md\",\n      \".church/bible/roadmap.md\",\n      \".church/bible/success-requirements.md\",\n      \".church/bible/ux-workflows.md\",\n      \".church/bible/validation-report.md\"\n    ]\n  },\n  \"results\": [\n    {\n      \"path\": \".church/bible/README.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-02\",\n        \"SR-03\",\n        \"SR-04\",\n        \"SR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/alignment-audit.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"AA-01\",\n        \"AA-02\",\n        \"AA-03\",\n        \"AA-04\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/architecture-map.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-02\",\n        \"SR-03\",\n        \"SR-04\",\n        \"SR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/design-doctrine.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"DD-01\",\n        \"DD-02\",\n        \"DD-03\",\n        \"DD-04\",\n        \"DD-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/market-watchlist.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/persona-gtm.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/principles-doctrine.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"PR-01\",\n        \"PR-02\",\n        \"PR-03\",\n        \"PR-04\",\n        \"PR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/roadmap.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-02\",\n        \"SR-03\",\n        \"SR-04\",\n        \"SR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/success-requirements.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-02\",\n        \"SR-03\",\n        \"SR-04\",\n        \"SR-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/ux-workflows.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"SR-01\",\n        \"SR-02\",\n        \"SR-04\",\n        \"SR-05\",\n        \"UX-01\",\n        \"UX-02\",\n        \"UX-03\",\n        \"UX-04\",\n        \"UX-05\"\n      ],\n      \"urls\": []\n    },\n    {\n      \"path\": \".church/bible/validation-report.md\",\n      \"errors\": [],\n      \"warnings\": [],\n      \"requirement_ids\": [\n        \"AA-04\"\n      ],\n      \"urls\": []\n    }\n  ]\n}"
     },
     {
       "argv": [
@@ -204,7 +204,7 @@
         "advance",
         "bible",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--outcome",
         "PASS",
         "--evidence",
@@ -217,7 +217,7 @@
       "exit_code": 0,
       "label": "advance-bible",
       "stderr": "",
-      "stdout": "{\n  \"active\": {\n    \"gate\": \"bible\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": null,\n    \"stage\": \"bible-generation\",\n    \"workflow\": \"bible\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"active\": {\n    \"gate\": \"bible\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"bible-generation\",\n    \"workflow\": \"bible\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"./.church/state.json\"\n}"
     },
     {
       "argv": [
@@ -226,7 +226,7 @@
         "advance",
         "survey",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--outcome",
         "PASS",
         "--evidence",
@@ -239,7 +239,7 @@
       "exit_code": 0,
       "label": "advance-survey",
       "stderr": "",
-      "stdout": "{\n  \"active\": {\n    \"gate\": \"survey\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": null,\n    \"stage\": \"codebase-survey\",\n    \"workflow\": \"survey\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"active\": {\n    \"gate\": \"survey\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"codebase-survey\",\n    \"workflow\": \"survey\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"./.church/state.json\"\n}"
     },
     {
       "argv": [
@@ -248,14 +248,14 @@
         "init",
         "assumptions",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--format",
         "json"
       ],
       "exit_code": 0,
       "label": "ledger-init-assumptions",
       "stderr": "",
-      "stdout": "{\n  \"exists\": true,\n  \"ledger\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/ledgers/assumptions.json\",\n  \"reset\": false\n}"
+      "stdout": "{\n  \"exists\": true,\n  \"ledger\": \"./.church/ledgers/assumptions.json\",\n  \"reset\": false\n}"
     },
     {
       "argv": [
@@ -264,7 +264,7 @@
         "add",
         "assumptions",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--id",
         "A-META-001",
         "--summary",
@@ -290,7 +290,7 @@
       "exit_code": 0,
       "label": "ledger-add-assumption",
       "stderr": "",
-      "stdout": "{\n  \"item\": {\n    \"acceptance_test\": \"tests/test_church_meta_lifecycle.py\",\n    \"blocks_progression\": false,\n    \"confidence\": \"verified-local\",\n    \"created_at\": \"2026-05-15T12:55:50+00:00\",\n    \"evidence\": \".church/proof/lifecycle-proof.json\",\n    \"id\": \"A-META-001\",\n    \"owner\": \"agent\",\n    \"proof\": \"lifecycle prove reaches refresh PASS\",\n    \"recheck\": \"church lifecycle prove --root <repo>\",\n    \"severity\": \"medium\",\n    \"status\": \"satisfied\",\n    \"summary\": \"Full lifecycle proof is the hard evidence needed for self-hosting readiness\",\n    \"updated_at\": \"2026-05-15T12:55:50+00:00\",\n    \"workflow\": null\n  },\n  \"ledger\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/ledgers/assumptions.json\"\n}"
+      "stdout": "{\n  \"item\": {\n    \"acceptance_test\": \"tests/test_church_meta_lifecycle.py\",\n    \"blocks_progression\": false,\n    \"confidence\": \"verified-local\",\n    \"created_at\": \"2026-05-15T14:05:55+00:00\",\n    \"evidence\": \".church/proof/lifecycle-proof.json\",\n    \"id\": \"A-META-001\",\n    \"owner\": \"agent\",\n    \"proof\": \"lifecycle prove reaches refresh PASS\",\n    \"recheck\": \"church lifecycle prove --root <repo>\",\n    \"severity\": \"medium\",\n    \"status\": \"satisfied\",\n    \"summary\": \"Full lifecycle proof is the hard evidence needed for self-hosting readiness\",\n    \"updated_at\": \"2026-05-15T14:05:55+00:00\",\n    \"workflow\": null\n  },\n  \"ledger\": \"./.church/ledgers/assumptions.json\"\n}"
     },
     {
       "argv": [
@@ -299,7 +299,7 @@
         "advance",
         "harden",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--outcome",
         "PASS",
         "--evidence",
@@ -312,7 +312,7 @@
       "exit_code": 0,
       "label": "advance-harden",
       "stderr": "",
-      "stdout": "{\n  \"active\": {\n    \"gate\": \"evidence\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": null,\n    \"stage\": \"research-hardening\",\n    \"workflow\": \"harden\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"active\": {\n    \"gate\": \"evidence\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"research-hardening\",\n    \"workflow\": \"harden\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"./.church/state.json\"\n}"
     },
     {
       "argv": [
@@ -321,7 +321,7 @@
         "advance",
         "anchor",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--outcome",
         "PASS",
         "--phase",
@@ -336,7 +336,7 @@
       "exit_code": 0,
       "label": "advance-anchor",
       "stderr": "",
-      "stdout": "{\n  \"active\": {\n    \"gate\": \"anchor\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"phase-anchor\",\n    \"workflow\": \"anchor\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"active\": {\n    \"gate\": \"anchor\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"phase-anchor\",\n    \"workflow\": \"anchor\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"./.church/state.json\"\n}"
     },
     {
       "argv": [
@@ -345,7 +345,7 @@
         "advance",
         "spec-gate",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--outcome",
         "PASS",
         "--evidence",
@@ -358,7 +358,7 @@
       "exit_code": 0,
       "label": "advance-spec",
       "stderr": "",
-      "stdout": "{\n  \"active\": {\n    \"gate\": \"spec\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"spec-gate\",\n    \"workflow\": \"spec-gate\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"active\": {\n    \"gate\": \"spec\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"spec-gate\",\n    \"workflow\": \"spec-gate\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"./.church/state.json\"\n}"
     },
     {
       "argv": [
@@ -367,14 +367,14 @@
         "init",
         "gaps",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--format",
         "json"
       ],
       "exit_code": 0,
       "label": "ledger-init-gaps",
       "stderr": "",
-      "stdout": "{\n  \"exists\": true,\n  \"ledger\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/ledgers/gaps.json\",\n  \"reset\": false\n}"
+      "stdout": "{\n  \"exists\": true,\n  \"ledger\": \"./.church/ledgers/gaps.json\",\n  \"reset\": false\n}"
     },
     {
       "argv": [
@@ -383,7 +383,7 @@
         "add",
         "gaps",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--id",
         "GAP-META-001",
         "--summary",
@@ -409,7 +409,7 @@
       "exit_code": 0,
       "label": "ledger-add-gap",
       "stderr": "",
-      "stdout": "{\n  \"item\": {\n    \"acceptance_test\": \"tests/test_church_meta_lifecycle.py\",\n    \"blocks_progression\": false,\n    \"created_at\": \"2026-05-15T12:55:50+00:00\",\n    \"evidence\": \".church/bible/alignment-audit.md\",\n    \"id\": \"GAP-META-001\",\n    \"owner\": \"agent\",\n    \"proof\": \"lifecycle prove command and regression test close the proof gap\",\n    \"recheck\": \"python3 tests/test_church_meta_lifecycle.py\",\n    \"severity\": \"high\",\n    \"status\": \"satisfied\",\n    \"summary\": \"Full lifecycle proof was absent before this meta run\",\n    \"updated_at\": \"2026-05-15T12:55:50+00:00\",\n    \"workflow\": null\n  },\n  \"ledger\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/ledgers/gaps.json\"\n}"
+      "stdout": "{\n  \"item\": {\n    \"acceptance_test\": \"tests/test_church_meta_lifecycle.py\",\n    \"blocks_progression\": false,\n    \"created_at\": \"2026-05-15T14:05:55+00:00\",\n    \"evidence\": \".church/bible/alignment-audit.md\",\n    \"id\": \"GAP-META-001\",\n    \"owner\": \"agent\",\n    \"proof\": \"lifecycle prove command and regression test close the proof gap\",\n    \"recheck\": \"python3 tests/test_church_meta_lifecycle.py\",\n    \"severity\": \"high\",\n    \"status\": \"satisfied\",\n    \"summary\": \"Full lifecycle proof was absent before this meta run\",\n    \"updated_at\": \"2026-05-15T14:05:55+00:00\",\n    \"workflow\": null\n  },\n  \"ledger\": \"./.church/ledgers/gaps.json\"\n}"
     },
     {
       "argv": [
@@ -418,7 +418,7 @@
         "advance",
         "gap-closure",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--outcome",
         "PASS",
         "--evidence",
@@ -431,7 +431,7 @@
       "exit_code": 0,
       "label": "advance-gap",
       "stderr": "",
-      "stdout": "{\n  \"active\": {\n    \"gate\": \"closure\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"gap-closure\",\n    \"workflow\": \"gap-closure\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"active\": {\n    \"gate\": \"closure\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"gap-closure\",\n    \"workflow\": \"gap-closure\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"./.church/state.json\"\n}"
     },
     {
       "argv": [
@@ -440,7 +440,7 @@
         "advance",
         "handoff",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--outcome",
         "PASS",
         "--evidence",
@@ -453,7 +453,7 @@
       "exit_code": 0,
       "label": "advance-handoff",
       "stderr": "",
-      "stdout": "{\n  \"active\": {\n    \"gate\": \"handoff\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"execution-handoff\",\n    \"workflow\": \"handoff\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"active\": {\n    \"gate\": \"handoff\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"execution-handoff\",\n    \"workflow\": \"handoff\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"./.church/state.json\"\n}"
     },
     {
       "argv": [
@@ -462,14 +462,14 @@
         "init",
         "uat",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--format",
         "json"
       ],
       "exit_code": 0,
       "label": "ledger-init-uat",
       "stderr": "",
-      "stdout": "{\n  \"exists\": true,\n  \"ledger\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/ledgers/uat.json\",\n  \"reset\": false\n}"
+      "stdout": "{\n  \"exists\": true,\n  \"ledger\": \"./.church/ledgers/uat.json\",\n  \"reset\": false\n}"
     },
     {
       "argv": [
@@ -478,7 +478,7 @@
         "add",
         "uat",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--id",
         "UAT-META-001",
         "--summary",
@@ -504,7 +504,7 @@
       "exit_code": 0,
       "label": "ledger-add-uat",
       "stderr": "",
-      "stdout": "{\n  \"item\": {\n    \"acceptance_test\": \"tests/test_church_meta_lifecycle.py\",\n    \"blocks_progression\": false,\n    \"created_at\": \"2026-05-15T12:55:51+00:00\",\n    \"evidence\": \".church/proof/lifecycle-proof.json\",\n    \"id\": \"UAT-META-001\",\n    \"owner\": \"agent\",\n    \"proof\": \"proof artifact records every canonical stage\",\n    \"recheck\": \"church lifecycle prove --root <repo>\",\n    \"result\": \"pass\",\n    \"severity\": \"medium\",\n    \"status\": \"satisfied\",\n    \"summary\": \"Full lifecycle proof reaches refresh PASS\",\n    \"updated_at\": \"2026-05-15T12:55:51+00:00\",\n    \"workflow\": null\n  },\n  \"ledger\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/ledgers/uat.json\"\n}"
+      "stdout": "{\n  \"item\": {\n    \"acceptance_test\": \"tests/test_church_meta_lifecycle.py\",\n    \"blocks_progression\": false,\n    \"created_at\": \"2026-05-15T14:05:56+00:00\",\n    \"evidence\": \".church/proof/lifecycle-proof.json\",\n    \"id\": \"UAT-META-001\",\n    \"owner\": \"agent\",\n    \"proof\": \"proof artifact records every canonical stage\",\n    \"recheck\": \"church lifecycle prove --root <repo>\",\n    \"result\": \"pass\",\n    \"severity\": \"medium\",\n    \"status\": \"satisfied\",\n    \"summary\": \"Full lifecycle proof reaches refresh PASS\",\n    \"updated_at\": \"2026-05-15T14:05:56+00:00\",\n    \"workflow\": null\n  },\n  \"ledger\": \"./.church/ledgers/uat.json\"\n}"
     },
     {
       "argv": [
@@ -514,14 +514,14 @@
         "signoff.agent",
         "true",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--format",
         "json"
       ],
       "exit_code": 0,
       "label": "signoff-agent",
       "stderr": "",
-      "stdout": "{\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\",\n  \"updated\": \"signoff.agent\"\n}"
+      "stdout": "{\n  \"state\": \"./.church/state.json\",\n  \"updated\": \"signoff.agent\"\n}"
     },
     {
       "argv": [
@@ -530,7 +530,7 @@
         "advance",
         "uat",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--outcome",
         "PASS",
         "--evidence",
@@ -543,7 +543,7 @@
       "exit_code": 0,
       "label": "advance-uat",
       "stderr": "",
-      "stdout": "{\n  \"active\": {\n    \"gate\": \"verification\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"collaborative-uat\",\n    \"workflow\": \"uat\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"active\": {\n    \"gate\": \"verification\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"collaborative-uat\",\n    \"workflow\": \"uat\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"./.church/state.json\"\n}"
     },
     {
       "argv": [
@@ -551,7 +551,7 @@
         "skills/church/scripts/validate-package.sh",
         "."
       ],
-      "cwd": "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+      "cwd": ".",
       "exit_code": 0,
       "label": "ship-package-validator",
       "stderr": "Validating Repo Church skills package at .",
@@ -559,24 +559,24 @@
     },
     {
       "argv": [
-        "/Users/justinchen/.pyenv/versions/3.14.4/bin/python3",
+        "python3",
         "tests/test_church_cli.py"
       ],
-      "cwd": "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+      "cwd": ".",
       "exit_code": 0,
       "label": "ship-cli-tests",
-      "stderr": "test_bible_delegation_subcommands (__main__.ChurchCliE2ETest.test_bible_delegation_subcommands) ... ok\ntest_bible_inventory_excludes_matching_git_status_paths (__main__.ChurchCliE2ETest.test_bible_inventory_excludes_matching_git_status_paths) ... ok\ntest_deferred_parity_cli_groups (__main__.ChurchCliE2ETest.test_deferred_parity_cli_groups) ... ok\ntest_help_surfaces_all_command_groups (__main__.ChurchCliE2ETest.test_help_surfaces_all_command_groups) ... ok\ntest_init_scaffold_bible_flag (__main__.ChurchCliE2ETest.test_init_scaffold_bible_flag) ... ok\ntest_invalid_transitions_fail_fast_with_actionable_error (__main__.ChurchCliE2ETest.test_invalid_transitions_fail_fast_with_actionable_error) ... ok\ntest_ledger_commands_and_blocker_checks (__main__.ChurchCliE2ETest.test_ledger_commands_and_blocker_checks) ... ok\ntest_moat_commands_and_flags (__main__.ChurchCliE2ETest.test_moat_commands_and_flags) ... ok\ntest_registry_state_context_and_lifecycle (__main__.ChurchCliE2ETest.test_registry_state_context_and_lifecycle) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 41.278s\n\nOK",
+      "stderr": "test_bible_delegation_subcommands (__main__.ChurchCliE2ETest.test_bible_delegation_subcommands) ... ok\ntest_bible_inventory_excludes_matching_git_status_paths (__main__.ChurchCliE2ETest.test_bible_inventory_excludes_matching_git_status_paths) ... ok\ntest_deferred_parity_cli_groups (__main__.ChurchCliE2ETest.test_deferred_parity_cli_groups) ... ok\ntest_help_surfaces_all_command_groups (__main__.ChurchCliE2ETest.test_help_surfaces_all_command_groups) ... ok\ntest_init_scaffold_bible_flag (__main__.ChurchCliE2ETest.test_init_scaffold_bible_flag) ... ok\ntest_invalid_transitions_fail_fast_with_actionable_error (__main__.ChurchCliE2ETest.test_invalid_transitions_fail_fast_with_actionable_error) ... ok\ntest_ledger_commands_and_blocker_checks (__main__.ChurchCliE2ETest.test_ledger_commands_and_blocker_checks) ... ok\ntest_moat_commands_and_flags (__main__.ChurchCliE2ETest.test_moat_commands_and_flags) ... ok\ntest_registry_state_context_and_lifecycle (__main__.ChurchCliE2ETest.test_registry_state_context_and_lifecycle) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 7.952s\n\nOK",
       "stdout": ""
     },
     {
       "argv": [
-        "/Users/justinchen/.pyenv/versions/3.14.4/bin/python3",
+        "python3",
         "tests/test_church_plugin_assets.py"
       ],
-      "cwd": "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+      "cwd": ".",
       "exit_code": 0,
       "label": "ship-plugin-assets",
-      "stderr": "test_church_namespace_hard_cutover_has_no_legacy_cli_or_profile_references (__main__.ChurchPluginAssetTest.test_church_namespace_hard_cutover_has_no_legacy_cli_or_profile_references) ... ok\ntest_commands_only_reference_existing_church_assets (__main__.ChurchPluginAssetTest.test_commands_only_reference_existing_church_assets) ... ok\ntest_counterpart_gap_closure_records_resolved_gsd_deltas (__main__.ChurchPluginAssetTest.test_counterpart_gap_closure_records_resolved_gsd_deltas) ... ok\ntest_deferred_parity_closure_records_actual_assets (__main__.ChurchPluginAssetTest.test_deferred_parity_closure_records_actual_assets) ... ok\ntest_expected_agent_profiles_exist_and_have_contract_sections (__main__.ChurchPluginAssetTest.test_expected_agent_profiles_exist_and_have_contract_sections) ... ok\ntest_expected_staged_commands_exist_and_are_self_describing (__main__.ChurchPluginAssetTest.test_expected_staged_commands_exist_and_are_self_describing) ... ok\ntest_gsd_workflow_assessment_has_no_unresolved_future_placeholders (__main__.ChurchPluginAssetTest.test_gsd_workflow_assessment_has_no_unresolved_future_placeholders) ... ok\ntest_manifest_exposes_command_and_agent_roots (__main__.ChurchPluginAssetTest.test_manifest_exposes_command_and_agent_roots) ... ok\ntest_stage_map_keeps_core_loop_in_order (__main__.ChurchPluginAssetTest.test_stage_map_keeps_core_loop_in_order) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.038s\n\nOK",
+      "stderr": "test_church_namespace_hard_cutover_has_no_legacy_cli_or_profile_references (__main__.ChurchPluginAssetTest.test_church_namespace_hard_cutover_has_no_legacy_cli_or_profile_references) ... ok\ntest_commands_only_reference_existing_church_assets (__main__.ChurchPluginAssetTest.test_commands_only_reference_existing_church_assets) ... ok\ntest_counterpart_gap_closure_records_resolved_gsd_deltas (__main__.ChurchPluginAssetTest.test_counterpart_gap_closure_records_resolved_gsd_deltas) ... ok\ntest_deferred_parity_closure_records_actual_assets (__main__.ChurchPluginAssetTest.test_deferred_parity_closure_records_actual_assets) ... ok\ntest_expected_agent_profiles_exist_and_have_contract_sections (__main__.ChurchPluginAssetTest.test_expected_agent_profiles_exist_and_have_contract_sections) ... ok\ntest_expected_staged_commands_exist_and_are_self_describing (__main__.ChurchPluginAssetTest.test_expected_staged_commands_exist_and_are_self_describing) ... ok\ntest_gsd_workflow_assessment_has_no_unresolved_future_placeholders (__main__.ChurchPluginAssetTest.test_gsd_workflow_assessment_has_no_unresolved_future_placeholders) ... ok\ntest_manifest_exposes_command_and_agent_roots (__main__.ChurchPluginAssetTest.test_manifest_exposes_command_and_agent_roots) ... ok\ntest_stage_map_keeps_core_loop_in_order (__main__.ChurchPluginAssetTest.test_stage_map_keeps_core_loop_in_order) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.012s\n\nOK",
       "stdout": ""
     },
     {
@@ -587,11 +587,11 @@
         "./",
         "--list"
       ],
-      "cwd": "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+      "cwd": ".",
       "exit_code": 0,
       "label": "ship-install-smoke",
-      "stderr": "npm warn exec The following package was not found and will be installed: skills@1.5.7",
-      "stdout": "\u2502\n\u25cf   codex  Agent detected \u2014 installing non-interactively\n\u001b[?25l\u2502\n\u25c7  Source: /Volumes/CHENDRIX/GitHub/agent-skills/repo-church\n\u001b[?25h\u001b[?25l\u2502\n\u25c7  Local path validated\n\u001b[?25h\u001b[?25l\u2502\n\u25c7  Found 12 skills\n\u001b[?25h\n\u2502\n\u25c7  Available Skills\n\u2502\n\u2502    church\n\u2502\n\u2502      Orchestrate Repo Church lifecycle workflows around a Repo Bible packet. Use when the user mentions church, repo-bible-driven planning, GSD-inspired phase gates, lifecycle hardening, assumption validation, gap closure, collaborative UAT, phase handoff, ship gate, or wants a stricter planning-to-verification workflow.\n\u2502\n\u2502    church-anchor\n\u2502\n\u2502      Strengthen Repo Church parent phase anchors before child specs or implementation. Use when the user asks to improve roadmap phases, tighten phase requirements, define parent phase anchors, sequence dependencies, or raise acceptance thresholds before planning.\n\u2502\n\u2502    church-gap-closure\n\u2502\n\u2502      Close Repo Church gaps, contradictions, and drift with explicit remediation tasks. Use when the user mentions gap closure, planning drift, bible misalignment, unresolved assumptions, failed gates, remediation planning, or contradictory docs/code.\n\u2502\n\u2502    church-handoff\n\u2502\n\u2502      Produce a Repo Church phase handoff with frozen scope, consumed artifacts, validation commands, and next actions. Use for phase handoff, context handoff, resume brief, execution handoff, or preparing another agent to continue work.\n\u2502\n\u2502    church-harden\n\u2502\n\u2502      Harden assumptions with local evidence and current research before planning. Use for church harden, assumption validation, research hardening, evidence gate, market-confidence checks, stale claim review, or GSD-style pre-plan risk tightening.\n\u2502\n\u2502    church-intake\n\u2502\n\u2502      Run Repo Church Bible intake and thin roadmap slicing. Use when the user asks for church intake, bible intake, roadmap from repo-bible, phase discovery, next milestone framing, or a lightweight planning entry point before research hardening.\n\u2502\n\u2502    church-moat\n\u2502\n\u2502      Identify and define a project's competitive moat with strategic market research, elevator-pitch clarity, sustainability scoring, and Repo Bible integration. Use during greenfield or brownfield project init, market positioning, competitive leverage analysis, defensibility review, or whenever the user asks what makes the project hard to copy.\n\u2502\n\u2502    church-optimizer\n\u2502\n\u2502      Optimize Repo Church or GSD-like lifecycle workflows for less redundancy, lower token use, and safer parallelism. Use when the user asks to reduce workflow time, reduce token consumption, improve phase parallelism, simplify gates, or tune lifecycle efficiency without weakening reliability.\n\u2502\n\u2502    church-ship\n\u2502\n\u2502      Run a Repo Church ship or merge gate with tests, docs, rollback, risk, and Bible alignment. Use when the user asks for ship checklist, merge readiness, release gate, pre-merge review, or phase completion approval.\n\u2502\n\u2502    church-spec-gate\n\u2502\n\u2502      Review specs and implementation plans against Repo Church gates. Use when the user asks for spec review, plan hardening, PRD acceptance, implementation plan viability, requirement traceability, or stricter pre-execution approval.\n\u2502\n\u2502    church-uat\n\u2502\n\u2502      Run collaborative Repo Church UAT with stricter phase-progression gates and mutual signoff. Use when the user asks for user testing, collaborative verification, UAT, acceptance walkthrough, mutual approval, must-pass stories, or post-phase validation.\n\u2502\n\u2502    repo-bible\n\u2502\n\u2502      Generates, audits, and refreshes comprehensive repo Bible packets for products, platforms, and projects. Use when the user asks to create a strategic reference packet, commandments, operating doctrine, market-backed roadmap, product constitution, GTM plan, architecture/design doctrine, or reusable repo bible.\n\n\u2502\n\u2514  Use --skill <name> to install specific skills"
+      "stderr": "",
+      "stdout": "\u001b[38;5;250m\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557  \u2588\u2588\u2557\u2588\u2588\u2557\u2588\u2588\u2557     \u2588\u2588\u2557     \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u001b[0m\n\u001b[38;5;248m\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2551 \u2588\u2588\u2554\u255d\u2588\u2588\u2551\u2588\u2588\u2551     \u2588\u2588\u2551     \u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u001b[0m\n\u001b[38;5;245m\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2554\u255d \u2588\u2588\u2551\u2588\u2588\u2551     \u2588\u2588\u2551     \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u001b[0m\n\u001b[38;5;243m\u255a\u2550\u2550\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2588\u2588\u2557 \u2588\u2588\u2551\u2588\u2588\u2551     \u2588\u2588\u2551     \u255a\u2550\u2550\u2550\u2550\u2588\u2588\u2551\u001b[0m\n\u001b[38;5;240m\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2551  \u2588\u2588\u2557\u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u001b[0m\n\u001b[38;5;238m\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u255d  \u255a\u2550\u255d\u255a\u2550\u255d\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\u001b[0m\n\n\u001b[90m\u250c\u001b[39m  \u001b[46m\u001b[30m skills \u001b[39m\u001b[49m\n\u001b[?25l\u001b[90m\u2502\u001b[39m\n\u001b[32m\u25c7\u001b[39m  Source: .\n\u001b[?25h\u001b[?25l\u001b[90m\u2502\u001b[39m\n\u001b[32m\u25c7\u001b[39m  Local path validated\n\u001b[?25h\u001b[?25l\u001b[90m\u2502\u001b[39m\n\u001b[32m\u25c7\u001b[39m  Found \u001b[32m12\u001b[39m skills\n\u001b[?25h\n\u001b[90m\u2502\u001b[39m\n\u001b[32m\u25c7\u001b[39m  \u001b[1mAvailable Skills\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mchurch\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mOrchestrate Repo Church lifecycle workflows around a Repo Bible packet. Use when the user mentions church, repo-bible-driven planning, GSD-inspired phase gates, lifecycle hardening, assumption validation, gap closure, collaborative UAT, phase handoff, ship gate, or wants a stricter planning-to-verification workflow.\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mchurch-anchor\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mStrengthen Repo Church parent phase anchors before child specs or implementation. Use when the user asks to improve roadmap phases, tighten phase requirements, define parent phase anchors, sequence dependencies, or raise acceptance thresholds before planning.\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mchurch-gap-closure\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mClose Repo Church gaps, contradictions, and drift with explicit remediation tasks. Use when the user mentions gap closure, planning drift, bible misalignment, unresolved assumptions, failed gates, remediation planning, or contradictory docs/code.\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mchurch-handoff\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mProduce a Repo Church phase handoff with frozen scope, consumed artifacts, validation commands, and next actions. Use for phase handoff, context handoff, resume brief, execution handoff, or preparing another agent to continue work.\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mchurch-harden\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mHarden assumptions with local evidence and current research before planning. Use for church harden, assumption validation, research hardening, evidence gate, market-confidence checks, stale claim review, or GSD-style pre-plan risk tightening.\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mchurch-intake\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mRun Repo Church Bible intake and thin roadmap slicing. Use when the user asks for church intake, bible intake, roadmap from repo-bible, phase discovery, next milestone framing, or a lightweight planning entry point before research hardening.\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mchurch-moat\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mIdentify and define a project's competitive moat with strategic market research, elevator-pitch clarity, sustainability scoring, and Repo Bible integration. Use during greenfield or brownfield project init, market positioning, competitive leverage analysis, defensibility review, or whenever the user asks what makes the project hard to copy.\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mchurch-optimizer\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mOptimize Repo Church or GSD-like lifecycle workflows for less redundancy, lower token use, and safer parallelism. Use when the user asks to reduce workflow time, reduce token consumption, improve phase parallelism, simplify gates, or tune lifecycle efficiency without weakening reliability.\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mchurch-ship\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mRun a Repo Church ship or merge gate with tests, docs, rollback, risk, and Bible alignment. Use when the user asks for ship checklist, merge readiness, release gate, pre-merge review, or phase completion approval.\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mchurch-spec-gate\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mReview specs and implementation plans against Repo Church gates. Use when the user asks for spec review, plan hardening, PRD acceptance, implementation plan viability, requirement traceability, or stricter pre-execution approval.\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mchurch-uat\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mRun collaborative Repo Church UAT with stricter phase-progression gates and mutual signoff. Use when the user asks for user testing, collaborative verification, UAT, acceptance walkthrough, mutual approval, must-pass stories, or post-phase validation.\u001b[22m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m    \u001b[36mrepo-bible\u001b[39m\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2502\u001b[39m      \u001b[2mGenerates, audits, and refreshes comprehensive repo Bible packets for products, platforms, and projects. Use when the user asks to create a strategic reference packet, commandments, operating doctrine, market-backed roadmap, product constitution, GTM plan, architecture/design doctrine, or reusable repo bible.\u001b[22m\n\n\u001b[90m\u2502\u001b[39m\n\u001b[90m\u2514\u001b[39m  Use --skill <name> to install specific skills"
     },
     {
       "argv": [
@@ -600,7 +600,7 @@
         "advance",
         "ship",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--outcome",
         "PASS",
         "--evidence",
@@ -613,7 +613,7 @@
       "exit_code": 0,
       "label": "advance-ship",
       "stderr": "",
-      "stdout": "{\n  \"active\": {\n    \"gate\": \"ship\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"ship-gate\",\n    \"workflow\": \"ship\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"active\": {\n    \"gate\": \"ship\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"ship-gate\",\n    \"workflow\": \"ship\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"./.church/state.json\"\n}"
     },
     {
       "argv": [
@@ -622,7 +622,7 @@
         "advance",
         "refresh",
         "--root",
-        "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+        ".",
         "--outcome",
         "PASS",
         "--evidence",
@@ -635,11 +635,11 @@
       "exit_code": 0,
       "label": "advance-refresh",
       "stderr": "",
-      "stdout": "{\n  \"active\": {\n    \"gate\": \"refresh\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"bible-refresh\",\n    \"workflow\": \"refresh\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json\"\n}"
+      "stdout": "{\n  \"active\": {\n    \"gate\": \"refresh\",\n    \"milestone\": null,\n    \"outcome\": \"PASS\",\n    \"phase\": \"P01\",\n    \"stage\": \"bible-refresh\",\n    \"workflow\": \"refresh\"\n  },\n  \"quality_check\": {\n    \"blockers\": [],\n    \"checked\": true,\n    \"warnings\": []\n  },\n  \"state\": \"./.church/state.json\"\n}"
     }
   ],
-  "created_at": "2026-05-15T12:56:33+00:00",
-  "evidence_root": "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+  "created_at": "2026-05-15T14:06:05+00:00",
+  "evidence_root": ".",
   "final_status": {
     "active": {
       "gate": "refresh",
@@ -666,27 +666,6 @@
       "uat_ledger": ".church/ledgers/uat.json"
     },
     "history": [
-      {
-        "at": "2026-05-15T12:55:49+00:00",
-        "event": "init",
-        "mode": "brownfield"
-      },
-      {
-        "at": "2026-05-15T12:55:49+00:00",
-        "event": "moat.init"
-      },
-      {
-        "at": "2026-05-15T12:55:49+00:00",
-        "event": "moat.check",
-        "outcome": "PASS"
-      },
-      {
-        "at": "2026-05-15T12:55:49+00:00",
-        "event": "lifecycle.advance",
-        "evidence": ".church/moat/moat.md",
-        "outcome": "PASS",
-        "workflow": "moat"
-      },
       {
         "at": "2026-05-15T12:55:50+00:00",
         "event": "lifecycle.advance",
@@ -779,6 +758,120 @@
         "evidence": ".church/refresh/meta-refresh-record.md",
         "outcome": "PASS",
         "workflow": "refresh"
+      },
+      {
+        "at": "2026-05-15T14:05:54+00:00",
+        "event": "init",
+        "mode": "brownfield"
+      },
+      {
+        "at": "2026-05-15T14:05:54+00:00",
+        "event": "moat.init"
+      },
+      {
+        "at": "2026-05-15T14:05:54+00:00",
+        "event": "moat.check",
+        "outcome": "PASS"
+      },
+      {
+        "at": "2026-05-15T14:05:54+00:00",
+        "event": "lifecycle.advance",
+        "evidence": ".church/moat/moat.md",
+        "outcome": "PASS",
+        "workflow": "moat"
+      },
+      {
+        "at": "2026-05-15T14:05:55+00:00",
+        "event": "lifecycle.advance",
+        "evidence": ".church/bible/_repo-bible-validation.md",
+        "outcome": "PASS",
+        "workflow": "bible"
+      },
+      {
+        "at": "2026-05-15T14:05:55+00:00",
+        "event": "lifecycle.advance",
+        "evidence": ".church/survey/codebase-survey.md",
+        "outcome": "PASS",
+        "workflow": "survey"
+      },
+      {
+        "at": "2026-05-15T14:05:55+00:00",
+        "event": "ledger.add",
+        "id": "A-META-001",
+        "kind": "assumptions"
+      },
+      {
+        "at": "2026-05-15T14:05:55+00:00",
+        "event": "lifecycle.advance",
+        "evidence": ".church/ledgers/assumptions.json",
+        "outcome": "PASS",
+        "workflow": "harden"
+      },
+      {
+        "at": "2026-05-15T14:05:55+00:00",
+        "event": "lifecycle.advance",
+        "evidence": ".church/anchors/meta-lifecycle-anchor.md",
+        "outcome": "PASS",
+        "workflow": "anchor"
+      },
+      {
+        "at": "2026-05-15T14:05:55+00:00",
+        "event": "lifecycle.advance",
+        "evidence": ".church/specs/meta-lifecycle-spec.md",
+        "outcome": "PASS",
+        "workflow": "spec-gate"
+      },
+      {
+        "at": "2026-05-15T14:05:55+00:00",
+        "event": "ledger.add",
+        "id": "GAP-META-001",
+        "kind": "gaps"
+      },
+      {
+        "at": "2026-05-15T14:05:55+00:00",
+        "event": "lifecycle.advance",
+        "evidence": ".church/gaps/meta-gap-closure.md",
+        "outcome": "PASS",
+        "workflow": "gap-closure"
+      },
+      {
+        "at": "2026-05-15T14:05:55+00:00",
+        "event": "lifecycle.advance",
+        "evidence": ".church/handoff/meta-lifecycle-handoff.md",
+        "outcome": "PASS",
+        "workflow": "handoff"
+      },
+      {
+        "at": "2026-05-15T14:05:56+00:00",
+        "event": "ledger.add",
+        "id": "UAT-META-001",
+        "kind": "uat"
+      },
+      {
+        "at": "2026-05-15T14:05:56+00:00",
+        "event": "state.set",
+        "key": "signoff.agent"
+      },
+      {
+        "at": "2026-05-15T14:05:56+00:00",
+        "event": "lifecycle.advance",
+        "evidence": ".church/uat/meta-uat.md",
+        "outcome": "PASS",
+        "workflow": "uat"
+      },
+      {
+        "at": "2026-05-15T14:06:05+00:00",
+        "event": "lifecycle.advance",
+        "evidence": ".church/ship/meta-ship-gate.md",
+        "outcome": "PASS",
+        "workflow": "ship"
+      },
+      {
+        "at": "2026-05-15T14:06:05+00:00",
+        "event": "lifecycle.advance",
+        "evidence": ".church/refresh/meta-refresh-record.md",
+        "outcome": "PASS",
+        "workflow": "refresh"
       }
     ],
     "ledger_status": {
@@ -840,7 +933,7 @@
       "mutual_required": false,
       "user": false
     },
-    "state_path": "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church/.church/state.json",
+    "state_path": "./.church/state.json",
     "workflow": {
       "automation": [
         "delegate-repo-bible-cli",
@@ -867,6 +960,6 @@
     "validate",
     "render-html"
   ],
-  "root": "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+  "root": ".",
   "schema_version": "church-lifecycle-proof/v1"
 }

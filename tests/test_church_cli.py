@@ -270,7 +270,7 @@ class ChurchCliE2ETest(unittest.TestCase):
     def test_bible_delegation_subcommands(self) -> None:
         self.run_cli("bible", "--help")
         inventory = self.json_cli("bible", "inventory", "--root", str(self.tmp), "--format", "json", "--output", "-")
-        self.assertEqual(pathlib.Path(inventory["root"]).resolve(), self.tmp.resolve())
+        self.assertEqual(inventory["root"], ".")
 
         self.run_cli("bible", "scaffold", "--root", str(self.tmp))
         self.assertTrue((self.tmp / ".church" / "bible").exists())

@@ -1,6 +1,6 @@
 # Codebase Survey
 
-Evidence root: `/Volumes/CHENDRIX/GitHub/agent-skills/repo-church`
+Evidence root: `.`
 
 ## Findings
 

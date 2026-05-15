@@ -140,11 +140,125 @@
       "evidence": ".church/refresh/meta-refresh-record.md",
       "outcome": "PASS",
       "workflow": "refresh"
+    },
+    {
+      "at": "2026-05-15T14:05:54+00:00",
+      "event": "init",
+      "mode": "brownfield"
+    },
+    {
+      "at": "2026-05-15T14:05:54+00:00",
+      "event": "moat.init"
+    },
+    {
+      "at": "2026-05-15T14:05:54+00:00",
+      "event": "moat.check",
+      "outcome": "PASS"
+    },
+    {
+      "at": "2026-05-15T14:05:54+00:00",
+      "event": "lifecycle.advance",
+      "evidence": ".church/moat/moat.md",
+      "outcome": "PASS",
+      "workflow": "moat"
+    },
+    {
+      "at": "2026-05-15T14:05:55+00:00",
+      "event": "lifecycle.advance",
+      "evidence": ".church/bible/_repo-bible-validation.md",
+      "outcome": "PASS",
+      "workflow": "bible"
+    },
+    {
+      "at": "2026-05-15T14:05:55+00:00",
+      "event": "lifecycle.advance",
+      "evidence": ".church/survey/codebase-survey.md",
+      "outcome": "PASS",
+      "workflow": "survey"
+    },
+    {
+      "at": "2026-05-15T14:05:55+00:00",
+      "event": "ledger.add",
+      "id": "A-META-001",
+      "kind": "assumptions"
+    },
+    {
+      "at": "2026-05-15T14:05:55+00:00",
+      "event": "lifecycle.advance",
+      "evidence": ".church/ledgers/assumptions.json",
+      "outcome": "PASS",
+      "workflow": "harden"
+    },
+    {
+      "at": "2026-05-15T14:05:55+00:00",
+      "event": "lifecycle.advance",
+      "evidence": ".church/anchors/meta-lifecycle-anchor.md",
+      "outcome": "PASS",
+      "workflow": "anchor"
+    },
+    {
+      "at": "2026-05-15T14:05:55+00:00",
+      "event": "lifecycle.advance",
+      "evidence": ".church/specs/meta-lifecycle-spec.md",
+      "outcome": "PASS",
+      "workflow": "spec-gate"
+    },
+    {
+      "at": "2026-05-15T14:05:55+00:00",
+      "event": "ledger.add",
+      "id": "GAP-META-001",
+      "kind": "gaps"
+    },
+    {
+      "at": "2026-05-15T14:05:55+00:00",
+      "event": "lifecycle.advance",
+      "evidence": ".church/gaps/meta-gap-closure.md",
+      "outcome": "PASS",
+      "workflow": "gap-closure"
+    },
+    {
+      "at": "2026-05-15T14:05:55+00:00",
+      "event": "lifecycle.advance",
+      "evidence": ".church/handoff/meta-lifecycle-handoff.md",
+      "outcome": "PASS",
+      "workflow": "handoff"
+    },
+    {
+      "at": "2026-05-15T14:05:56+00:00",
+      "event": "ledger.add",
+      "id": "UAT-META-001",
+      "kind": "uat"
+    },
+    {
+      "at": "2026-05-15T14:05:56+00:00",
+      "event": "state.set",
+      "key": "signoff.agent"
+    },
+    {
+      "at": "2026-05-15T14:05:56+00:00",
+      "event": "lifecycle.advance",
+      "evidence": ".church/uat/meta-uat.md",
+      "outcome": "PASS",
+      "workflow": "uat"
+    },
+    {
+      "at": "2026-05-15T14:06:05+00:00",
+      "event": "lifecycle.advance",
+      "evidence": ".church/ship/meta-ship-gate.md",
+      "outcome": "PASS",
+      "workflow": "ship"
+    },
+    {
+      "at": "2026-05-15T14:06:05+00:00",
+      "event": "lifecycle.advance",
+      "evidence": ".church/refresh/meta-refresh-record.md",
+      "outcome": "PASS",
+      "workflow": "refresh"
     }
   ],
   "ledger_dir": ".church/ledgers",
   "moat_dir": ".church/moat",
-  "repo_root": "/Volumes/CHENDRIX/GitHub/agent-skills/repo-church",
+  "repo_root": ".",
   "schema_version": "church-state/v1",
   "signoff": {
     "agent": true,
@@ -205,7 +319,7 @@
       "type": "path"
     },
     "repo_root": {
-      "purpose": "Absolute repository root captured at init.",
+      "purpose": "Repository root marker (portable path, defaults to .).",
       "type": "path"
     },
     "schema_version": {
@@ -225,7 +339,7 @@
       "type": "boolean"
     }
   },
-  "updated_at": "2026-05-15T12:56:33+00:00",
+  "updated_at": "2026-05-15T14:06:05+00:00",
   "workflows": {
     "anchor": {
       "automation": [

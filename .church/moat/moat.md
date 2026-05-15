@@ -1,6 +1,6 @@
 # Project Moat
 
-Updated: 2026-05-15T12:55:49+00:00
+Updated: 2026-05-15T14:05:54+00:00
 
 ## Elevator Pitch
 Repo Church turns agentic repository work into a Bible-backed lifecycle with deterministic gates, evidence ledgers, specialist contracts, and ship-ready handoffs.

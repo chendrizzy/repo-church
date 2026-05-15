@@ -1,6 +1,6 @@
 # Repo Bible Inventory
 
-- Root: `/Volumes/CHENDRIX/GitHub/agent-skills/repo-church`
+- Root: `.`
 - Git branch: `codex/meta-church-e2e`
 
 ## Counts
@@ -8,9 +8,9 @@
 - total_files_scanned: 113
 - documents: 27
 - source_files: 5
-- source_lines: 5262
+- source_lines: 5359
 - test_files: 3
-- test_lines: 783
+- test_lines: 809
 
 ## Package And Schema Files
 
@@ -128,9 +128,8 @@
 
 ## Git Status
 
-- `M  skills/church/scripts/church.py`
+- `M .church/moat/moat.md`
+- `MM skills/church/scripts/church.py`
 - `M  skills/repo-bible/scripts/repo_bible.py`
 - `M  tests/test_church_cli.py`
-- `A  tests/test_church_meta_lifecycle.py`
-- `M  tests/test_church_plugin_assets.py`
-- `?? .gitignore`
+- `M  tests/test_church_meta_lifecycle.py`

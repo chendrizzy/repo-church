@@ -13,6 +13,8 @@ SHIP_READY: yes.
 | Bible validation | `church bible validate --root . --follow-local-md --format json --output -` | 0 errors, 0 warnings |
 | Install smoke | `npx skills add ./ --list` | 12 intended skills listed |
 
+Ship checks skipped: no.
+
 ## External Regression
 
 `python3 tests/test_church_meta_lifecycle.py` validates this proof command on an isolated temporary root. It remains outside the proof-owned command list to avoid recursive self-invocation.

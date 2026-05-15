@@ -4,7 +4,7 @@
       "acceptance_test": "tests/test_church_meta_lifecycle.py",
       "blocks_progression": false,
       "confidence": "verified-local",
-      "created_at": "2026-05-15T12:55:50+00:00",
+      "created_at": "2026-05-15T14:05:55+00:00",
       "evidence": ".church/proof/lifecycle-proof.json",
       "id": "A-META-001",
       "owner": "agent",
@@ -13,11 +13,11 @@
       "severity": "medium",
       "status": "satisfied",
       "summary": "Full lifecycle proof is the hard evidence needed for self-hosting readiness",
-      "updated_at": "2026-05-15T12:55:50+00:00",
+      "updated_at": "2026-05-15T14:05:55+00:00",
       "workflow": null
     }
   ],
   "kind": "assumptions",
   "schema_version": "church-ledger/v1",
-  "updated_at": "2026-05-15T12:55:50+00:00"
+  "updated_at": "2026-05-15T14:05:55+00:00"
 }
