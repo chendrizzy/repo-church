@@ -1,6 +1,7 @@
 .agents
-.cursor/hooks/state/continual-learning.json
+.cursor
 .nova
 .church
+.gitignore
 repo-church.code-workspace
 skills-lock.json
