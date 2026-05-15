@@ -289,6 +289,23 @@ class ChurchCliE2ETest(unittest.TestCase):
         self.assertTrue((self.tmp / ".church" / "bible" / "vision-intake.html").exists())
         self.assertTrue((self.tmp / ".church" / "bible" / "html").exists())
 
+    def test_bible_inventory_excludes_matching_git_status_paths(self) -> None:
+        subprocess.run(["git", "init"], cwd=self.tmp, text=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+        legacy_name = "repo" + "-church"
+        noisy_dir = self.tmp / legacy_name
+        noisy_dir.mkdir()
+        (noisy_dir / ".git").mkdir()
+        (noisy_dir / "note.md").write_text("local nested checkout noise\n")
+
+        inventory = self.json_cli(
+            "bible", "inventory",
+            "--root", str(self.tmp),
+            "--format", "json",
+            "--output", "-",
+        )
+
+        self.assertNotIn(legacy_name, "\n".join(inventory["git_status_short"]))
+
     def test_deferred_parity_cli_groups(self) -> None:
         self.json_cli("init", "--root", str(self.tmp), "--mode", "brownfield", "--project-name", "Demo", "--format", "json")
 

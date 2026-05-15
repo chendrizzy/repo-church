@@ -1,0 +1,97 @@
+{
+  "competition": {
+    "adjacent": [
+      "task runners",
+      "AI coding IDE rules",
+      "project management checklists"
+    ],
+    "direct": [
+      "ad hoc agent planning prompts",
+      "repo-local GSD workflows"
+    ],
+    "status_quo": [
+      "manual planning docs",
+      "unstructured PR review",
+      "session-specific handoffs"
+    ],
+    "substitutes": [
+      "plain README instructions",
+      "single-agent memory files"
+    ]
+  },
+  "elevator_pitch": "Repo Church turns agentic repository work into a Bible-backed lifecycle with deterministic gates, evidence ledgers, specialist contracts, and ship-ready handoffs.",
+  "leverage": {
+    "primary_source": "repo-local lifecycle artifacts that compound across phases",
+    "secondary_sources": [
+      "deterministic CLI checks",
+      "specialist profile contracts",
+      "Bible packet templates",
+      "Python regression tests"
+    ],
+    "what_compounds_with_use": "requirements, ledgers, evidence, handoffs, validation reports, and refresh records become reusable context",
+    "what_gets_harder_to_copy": "the interaction between portable skills, deterministic state, quality gates, and accumulated project doctrine"
+  },
+  "market": {
+    "buyer": "agent-heavy repo owners and technical operators",
+    "category": "agent workflow governance",
+    "urgent_pain": "agent work often drifts from requirements, skips proof, and becomes hard to resume or review",
+    "user": "coding agents, skill authors, and repo maintainers",
+    "why_now": "agentic coding adoption makes durable repo-local process and evidence more valuable than one-off prompts"
+  },
+  "one_sentence_moat": "Its moat is the self-reinforcing combination of repo-local doctrine, deterministic lifecycle state, proof-bearing ledgers, and installable agent skill contracts that make quality gates executable instead of aspirational.",
+  "project_name": "Repo Church",
+  "proof": {
+    "customer_evidence": [
+      "User requested a self-hosted E2E meta-analysis to prove the framework can improve itself through its intended lifecycle"
+    ],
+    "local_evidence": [
+      "README.md documents the installable lifecycle and core loop",
+      "skills/church/scripts/church.py implements state, moat, ledger, context, lifecycle, and quality checks",
+      "tests/test_church_cli.py verifies CLI behavior and failure-mode guardrails",
+      "tests/test_church_plugin_assets.py verifies staged command and specialist profile assets",
+      "bash skills/church/scripts/validate-package.sh . validates package shape"
+    ],
+    "market_evidence": [
+      "Local repo evidence shows the package addresses agent workflow governance; external competitor freshness is deferred to roadmap P03"
+    ],
+    "missing_evidence": [
+      "Current dated competitor research for public positioning",
+      "Third-party user adoption data beyond this local repository"
+    ]
+  },
+  "risks": [
+    "Ceremony without enforcement if lifecycle gates are not tested end to end",
+    "Overclaiming market moat without current competitor research",
+    "Context bloat if Bible artifacts are not paired with deterministic summaries"
+  ],
+  "schema_version": "church-moat/v1",
+  "scorecard": {
+    "clarity": 4,
+    "differentiation": 4,
+    "durability": 4,
+    "evidence": 4,
+    "third_party_comprehension": 4,
+    "urgency": 4
+  },
+  "sustainability": {
+    "data_or_learning_loop": "each phase refreshes requirements, gaps, validation evidence, and next-phase anchors",
+    "defensibility": "trust from repeatable proof that gates reject unsupported progress",
+    "distribution_advantage": "skills.sh-compatible package with staged commands and specialist profiles",
+    "ecosystem_lock_in": "low vendor lock-in by design; lock-in comes from useful repo-local artifacts rather than runtime dependence",
+    "switching_costs": "repo history, Bible requirements, ledgers, and handoffs become embedded in the project workflow",
+    "trust_or_compliance": "explicit evidence, owner, proof, and recheck fields support auditability"
+  },
+  "third_party_summary": "Repo Church is a portable skills package and CLI that helps coding agents plan, verify, ship, and refresh repository work without losing traceability or proof between sessions.",
+  "updated_at": "2026-05-15T12:11:27+00:00",
+  "validation_tests": [
+    "tests/test_church_meta_lifecycle.py proves the full lifecycle reaches refresh PASS",
+    "tests/test_church_cli.py proves weak PASS records and proofless closure are rejected",
+    "npx skills add ./ --list proves install surface exposes the intended skills"
+  ],
+  "wedge": {
+    "entry_point": "installable repo lifecycle skill package with deterministic CLI validation",
+    "first_10_users": "builders who repeatedly use agents for multi-phase repository work",
+    "switching_trigger": "a plan, PR, or resumed session needs proof that requirements, evidence, UAT, and ship gates were satisfied",
+    "time_to_value": "first init plus context load produces state, moat, Bible scaffold, and next workflow in one session"
+  }
+}

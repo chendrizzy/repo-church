@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repo Bible</title>
+<style>:root {
+  color-scheme: light;
+  --ink: #0b0f14;
+  --muted: #52606d;
+  --rule: #d7dee8;
+  --paper: #f8fafc;
+  --panel: #ffffff;
+  --blue: #1d4ed8;
+  --green: #15803d;
+  --amber: #b45309;
+  --red: #b91c1c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 18px 28px;
+  background: rgba(248, 250, 252, 0.92);
+  border-bottom: 1px solid var(--rule);
+  backdrop-filter: blur(10px);
+}
+main { max-width: 1180px; margin: 0 auto; padding: 28px; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.panel, section {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 18px 0;
+}
+table { width: 100%; border-collapse: collapse; background: var(--panel); }
+th, td { border: 1px solid var(--rule); padding: 8px 10px; vertical-align: top; }
+th { background: #eef2f7; text-align: left; }
+code, pre, textarea, input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+pre { overflow: auto; background: #0b0f14; color: #f8fafc; padding: 14px; border-radius: 8px; }
+blockquote { border-left: 4px solid var(--blue); margin-left: 0; padding-left: 14px; color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.field { display: grid; gap: 6px; margin-bottom: 14px; }
+label { font-weight: 650; }
+textarea, input, select {
+  width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+  color: var(--ink);
+}
+textarea { min-height: 110px; resize: vertical; }
+button {
+  border: 1px solid var(--blue);
+  background: var(--blue);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 650;
+  cursor: pointer;
+}
+button.secondary { background: #fff; color: var(--blue); }
+.status { color: var(--muted); font-size: 14px; }
+.pill { display: inline-flex; padding: 3px 8px; border: 1px solid var(--rule); border-radius: 999px; font-size: 12px; color: var(--muted); }</style>
+</head>
+<body>
+<header>
+<strong>Repo Bible</strong>
+
+</header>
+<main>
+<section><h1>Repo Bible HTML Index</h1><ul>
+<li><a href="README.html">Repo Church Meta Bible</a> <span class="pill">.church/bible/README.md</span></li>
+<li><a href="alignment-audit.html">Alignment Audit</a> <span class="pill">.church/bible/alignment-audit.md</span></li>
+<li><a href="architecture-map.html">Architecture Map</a> <span class="pill">.church/bible/architecture-map.md</span></li>
+<li><a href="design-doctrine.html">Design Doctrine</a> <span class="pill">.church/bible/design-doctrine.md</span></li>
+<li><a href="market-watchlist.html">Market Landscape and Watchlist</a> <span class="pill">.church/bible/market-watchlist.md</span></li>
+<li><a href="persona-gtm.html">Persona and Go-To-Market Plan</a> <span class="pill">.church/bible/persona-gtm.md</span></li>
+<li><a href="principles-doctrine.html">Principles Doctrine</a> <span class="pill">.church/bible/principles-doctrine.md</span></li>
+<li><a href="roadmap.html">Optimized Roadmap</a> <span class="pill">.church/bible/roadmap.md</span></li>
+<li><a href="success-requirements.html">Success Requirements</a> <span class="pill">.church/bible/success-requirements.md</span></li>
+<li><a href="ux-workflows.html">UX Workflows and Must-Pass Cases</a> <span class="pill">.church/bible/ux-workflows.md</span></li>
+<li><a href="validation-report.html">Repo Bible Validation Report</a> <span class="pill">.church/bible/validation-report.md</span></li>
+</ul></section>
+</main>
+</body>
+</html>

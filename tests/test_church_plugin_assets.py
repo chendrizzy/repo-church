@@ -261,6 +261,10 @@ class ChurchPluginAssetTest(unittest.TestCase):
         legacy_env = "REPO_" + "CHURCH_ROOT"
         legacy_cli = SKILLS_ROOT / "church" / "scripts" / legacy_name
         self.assertFalse(legacy_cli.exists(), f"{legacy_name} CLI alias should be removed for hard cutover")
+        self.assertFalse(
+            (PACKAGE_ROOT / legacy_name).exists(),
+            f"root-level {legacy_name}/ checkout should not live inside the package root",
+        )
 
         scan_roots = [
             PACKAGE_ROOT,

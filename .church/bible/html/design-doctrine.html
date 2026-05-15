@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Doctrine</title>
+<style>:root {
+  color-scheme: light;
+  --ink: #0b0f14;
+  --muted: #52606d;
+  --rule: #d7dee8;
+  --paper: #f8fafc;
+  --panel: #ffffff;
+  --blue: #1d4ed8;
+  --green: #15803d;
+  --amber: #b45309;
+  --red: #b91c1c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 18px 28px;
+  background: rgba(248, 250, 252, 0.92);
+  border-bottom: 1px solid var(--rule);
+  backdrop-filter: blur(10px);
+}
+main { max-width: 1180px; margin: 0 auto; padding: 28px; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.panel, section {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 18px 0;
+}
+table { width: 100%; border-collapse: collapse; background: var(--panel); }
+th, td { border: 1px solid var(--rule); padding: 8px 10px; vertical-align: top; }
+th { background: #eef2f7; text-align: left; }
+code, pre, textarea, input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+pre { overflow: auto; background: #0b0f14; color: #f8fafc; padding: 14px; border-radius: 8px; }
+blockquote { border-left: 4px solid var(--blue); margin-left: 0; padding-left: 14px; color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.field { display: grid; gap: 6px; margin-bottom: 14px; }
+label { font-weight: 650; }
+textarea, input, select {
+  width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+  color: var(--ink);
+}
+textarea { min-height: 110px; resize: vertical; }
+button {
+  border: 1px solid var(--blue);
+  background: var(--blue);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 650;
+  cursor: pointer;
+}
+button.secondary { background: #fff; color: var(--blue); }
+.status { color: var(--muted); font-size: 14px; }
+.pill { display: inline-flex; padding: 3px 8px; border: 1px solid var(--rule); border-radius: 999px; font-size: 12px; color: var(--muted); }</style>
+</head>
+<body>
+<header>
+<strong>Design Doctrine</strong>
+<nav><a href="index.html">Index</a></nav>
+</header>
+<main>
+<p>--- title: Design Doctrine generated: 2026-05-15 status: design reference ---</p>
+<h1 id="design-doctrine">Design Doctrine</h1>
+<h2 id="product-experience-promise">Product Experience Promise</h2>
+<p>Repo Church should feel like a disciplined operator console for agentic work: dense, explicit, evidence-first, and portable. The experience is not decorative; its quality comes from making the next correct action hard to miss and making unsupported progress hard to record.</p>
+<h2 id="design-non-negotiables">Design Non-Negotiables</h2>
+<table>
+<thead><tr>
+<th>ID</th>
+<th>Doctrine</th>
+<th>Practical rule</th>
+<th>Evidence</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>DD-01</td>
+<td>Dense but scannable</td>
+<td>Commands and reports use tables for evidence, owners, blockers, and rechecks.</td>
+<td><code>commands/*.md</code>, <code>gate-taxonomy.md</code></td>
+</tr>
+<tr>
+<td>DD-02</td>
+<td>No invisible pass</td>
+<td>Every PASS has visible evidence and lifecycle state.</td>
+<td><code>church.py</code>, <code>.church/state.json</code></td>
+</tr>
+<tr>
+<td>DD-03</td>
+<td>Portable language</td>
+<td>Avoid agent-vendor-only assumptions unless a profile declares compatibility.</td>
+<td><code>AGENTS.md</code>, <code>.claude-plugin/plugin.json</code></td>
+</tr>
+<tr>
+<td>DD-04</td>
+<td>Human review surfaces</td>
+<td>Render Bible/validation HTML when useful; keep markdown canonical.</td>
+<td><code>repo_bible.py render-html</code></td>
+</tr>
+<tr>
+<td>DD-05</td>
+<td>Progressive disclosure</td>
+<td>Keep SKILL entrypoints concise and push detail to references, commands, agents, and CLI reports.</td>
+<td><code>skills/church/SKILL.md</code>, <code>skills/repo-bible/SKILL.md</code></td>
+</tr>
+</tbody></table>
+<h2 id="core-surfaces">Core Surfaces</h2>
+<table>
+<thead><tr>
+<th>Surface</th>
+<th>User job</th>
+<th>Must not do</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>SKILL.md</code></td>
+<td>Route intent and load minimal context.</td>
+<td>Become a monolithic procedure dump.</td>
+</tr>
+<tr>
+<td><code>commands/*.md</code></td>
+<td>Provide staged operator workflow and output shape.</td>
+<td>Omit evidence/recheck/signoff fields.</td>
+</tr>
+<tr>
+<td><code>agents/*.md</code></td>
+<td>Provide specialist contracts.</td>
+<td>Return unverifiable summaries.</td>
+</tr>
+<tr>
+<td><code>.church/bible/*.md</code></td>
+<td>Govern requirements, roadmap, moat, and validation.</td>
+<td>Leave placeholders in controlling artifacts.</td>
+</tr>
+<tr>
+<td>CLI reports</td>
+<td>Offload inventory, sources, validation, context, and ledgers.</td>
+<td>Pretend mechanical output is strategy judgment.</td>
+</tr>
+</tbody></table>
+</main>
+</body>
+</html>
