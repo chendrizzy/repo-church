@@ -20,6 +20,15 @@ For the smallest useful global install:
 npx skills add chendrizzy/repo-church --skill repo-bible --skill church -g
 ```
 
+
+### Package source repo
+
+If you are inside a clone of the published package (not a consumer project):
+
+- Do not run `npx skills add . --all` from the package root; it symlinks `skills/` into `.agents/skills/` and can break commits.
+- Refresh global copies from outside the clone: `npx skills add chendrizzy/repo-church --all -g`.
+- Run `bash skills/church/scripts/validate-package.sh .` at the package root to validate source `skills/`, not `~/.agents/skills/`.
+
 ### Local checkout
 
 From a parent checkout that contains this package:

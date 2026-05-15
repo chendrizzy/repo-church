@@ -19,6 +19,9 @@ The README is intentionally short. The detailed command, skill, agent, CLI, vali
 
 ## Install
 
+
+**Package source repo:** If you are working inside a clone of this repository, do not run `npx skills add . --all` from the package root—it replaces `skills/` with symlinks into `.agents/skills/`. Refresh global installs from outside the repo: `npx skills add chendrizzy/repo-church --all -g`.
+
 Global install from GitHub (skills.sh leaderboard uses install telemetry from this path):
 
 ```bash
@@ -141,5 +144,7 @@ bash agent-skills/repo-church/skills/church/scripts/validate-package.sh agent-sk
 python3 agent-skills/repo-church/tests/test_church_plugin_assets.py
 python3 agent-skills/repo-church/tests/test_church_cli.py
 ```
+
+- validate-package.sh checks repo-local skills/, commands/, and agents/ at the package root—not ~/.agents/skills/ after a global install.
 
 The validator checks skill, command, and agent frontmatter; naming rules; required agent sections; and the eval file. The Python tests cover staged assets, package namespace rules, and CLI behavior.
