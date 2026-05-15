@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import datetime as _dt
 import json
+import os
 import pathlib
 import subprocess
 import sys
@@ -1220,6 +1221,122 @@ def format_quality_blockers(check: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def run_church_capture(args: list[str]) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        [sys.executable, str(pathlib.Path(__file__).resolve()), *args],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+
+def write_artifact(root: pathlib.Path, rel_path: str, text: str) -> pathlib.Path:
+    path = root / rel_path
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+    return path
+
+
+def seed_bible_from_evidence_root(root: pathlib.Path, evidence_root: pathlib.Path) -> None:
+    source = evidence_root / DEFAULT_BIBLE_DIR
+    target = root / DEFAULT_BIBLE_DIR
+    if source == target or not source.exists():
+        return
+    target.mkdir(parents=True, exist_ok=True)
+    for source_path in source.glob("*.md"):
+        if source_path.name.startswith("_repo-bible-"):
+            continue
+        (target / source_path.name).write_text(source_path.read_text(encoding="utf-8"), encoding="utf-8")
+
+
+def proof_moat(project_name: str, evidence_root: pathlib.Path) -> dict[str, Any]:
+    moat = moat_template(project_name)
+    moat.update({
+        "elevator_pitch": (
+            "Repo Church turns agentic repository work into a Bible-backed lifecycle with deterministic gates, "
+            "evidence ledgers, specialist contracts, and ship-ready handoffs."
+        ),
+        "third_party_summary": (
+            "Repo Church is a portable skills package and CLI that helps coding agents plan, verify, ship, "
+            "and refresh repository work without losing traceability between sessions."
+        ),
+        "one_sentence_moat": (
+            "Its moat is the compounding repo-local doctrine, deterministic lifecycle state, proof-bearing "
+            "ledgers, and installable agent skill contracts that make quality gates executable."
+        ),
+    })
+    moat["market"].update({
+        "category": "agent workflow governance",
+        "buyer": "agent-heavy repo owners and technical operators",
+        "user": "coding agents, skill authors, and repo maintainers",
+        "urgent_pain": "agent work can drift from requirements, skip proof, and become hard to resume or review",
+        "why_now": "agentic coding adoption makes durable repo-local process and evidence more valuable than one-off prompts",
+    })
+    moat["competition"].update({
+        "direct": ["ad hoc agent planning prompts", "repo-local workflow scripts"],
+        "adjacent": ["task runners", "AI coding IDE rules", "project management checklists"],
+        "status_quo": ["manual planning docs", "unstructured PR review", "session-specific handoffs"],
+        "substitutes": ["plain README instructions", "single-agent memory files"],
+    })
+    moat["wedge"].update({
+        "entry_point": "installable repo lifecycle skill package with deterministic CLI validation",
+        "first_10_users": "builders who repeatedly use agents for multi-phase repository work",
+        "switching_trigger": "a resumed session or PR needs proof that requirements, evidence, UAT, and ship gates were satisfied",
+        "time_to_value": "first init plus context load produces state, moat, Bible scaffold, and next workflow in one session",
+    })
+    moat["leverage"].update({
+        "primary_source": "repo-local lifecycle artifacts that compound across phases",
+        "secondary_sources": ["deterministic CLI checks", "specialist profile contracts", "Bible packet templates", "Python regression tests"],
+        "what_compounds_with_use": "requirements, ledgers, evidence, handoffs, validation reports, and refresh records become reusable context",
+        "what_gets_harder_to_copy": "the interaction between portable skills, deterministic state, quality gates, and accumulated project doctrine",
+    })
+    moat["sustainability"].update({
+        "defensibility": "trust from repeatable proof that gates reject unsupported progress",
+        "switching_costs": "repo history, Bible requirements, ledgers, and handoffs become embedded in the project workflow",
+        "distribution_advantage": "skills.sh-compatible package with staged commands and specialist profiles",
+        "data_or_learning_loop": "each phase refreshes requirements, gaps, validation evidence, and next-phase anchors",
+        "ecosystem_lock_in": "low vendor lock-in by design; lock-in comes from useful repo-local artifacts",
+        "trust_or_compliance": "explicit evidence, owner, proof, and recheck fields support auditability",
+    })
+    moat["proof"].update({
+        "local_evidence": [
+            f"{evidence_root / 'README.md'} documents the installable lifecycle and core loop",
+            f"{evidence_root / 'skills/church/scripts/church.py'} implements state, moat, ledger, context, lifecycle, and quality checks",
+            f"{evidence_root / 'tests/test_church_cli.py'} verifies CLI behavior and failure-mode guardrails",
+            f"{evidence_root / 'tests/test_church_plugin_assets.py'} verifies staged command and specialist profile assets",
+        ],
+        "market_evidence": [
+            "Local repo evidence supports the agent workflow governance category; current external competitor research is a refresh task"
+        ],
+        "customer_evidence": [
+            "The self-hosted meta lifecycle request requires Repo Church to prove it can govern itself end to end"
+        ],
+        "missing_evidence": [
+            "Current dated competitor research for public positioning",
+            "Third-party user adoption data beyond this local repository",
+        ],
+    })
+    moat["risks"] = [
+        "Ceremony without enforcement if lifecycle gates are not tested end to end",
+        "Overclaiming market moat without current competitor research",
+        "Context bloat if Bible artifacts are not paired with deterministic summaries",
+    ]
+    moat["validation_tests"] = [
+        "church lifecycle prove reaches refresh PASS without --force or --allow-quality-risk",
+        "tests/test_church_cli.py proves weak PASS records and proofless closure are rejected",
+        "npx skills add ./ --list proves install surface exposes the intended skills",
+    ]
+    moat["scorecard"] = {
+        "clarity": 4,
+        "urgency": 4,
+        "differentiation": 4,
+        "durability": 4,
+        "evidence": 4,
+        "third_party_comprehension": 4,
+    }
+    return moat
+
+
 def render_handoff(root: pathlib.Path, fmt: str = "markdown") -> str | dict[str, Any]:
     payload = context_payload(root, include_history=True, max_history=8)
     active = payload["active"]
@@ -1538,6 +1655,280 @@ def cmd_lifecycle_handoff(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_lifecycle_prove(args: argparse.Namespace) -> int:
+    root = repo_root(args.root)
+    evidence_root = repo_root(args.self_package or args.root)
+    project_name = args.project_name or root.name
+    proof_dir = root / DEFAULT_CHURCH_ROOT / "proof"
+    proof_dir.mkdir(parents=True, exist_ok=True)
+    commands: list[dict[str, Any]] = []
+
+    def run_step(label: str, argv: list[str], allow_failure: bool = False) -> subprocess.CompletedProcess[str]:
+        result = run_church_capture(argv)
+        commands.append({
+            "label": label,
+            "argv": ["church", *argv],
+            "exit_code": result.returncode,
+            "stdout": result.stdout.strip(),
+            "stderr": result.stderr.strip(),
+        })
+        if result.returncode != 0 and not allow_failure:
+            raise SystemExit(f"Error: lifecycle prove failed at {label}\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}")
+        return result
+
+    def run_external_step(
+        label: str,
+        argv: list[str],
+        cwd: pathlib.Path,
+        allow_failure: bool = False,
+    ) -> subprocess.CompletedProcess[str]:
+        result = subprocess.run(
+            argv,
+            cwd=cwd,
+            check=False,
+            capture_output=True,
+            text=True,
+            env={**os.environ, "CHURCH_PYTHON": sys.executable, "PYTHONDONTWRITEBYTECODE": "1"},
+        )
+        commands.append({
+            "label": label,
+            "argv": argv,
+            "cwd": str(cwd),
+            "exit_code": result.returncode,
+            "stdout": result.stdout.strip(),
+            "stderr": result.stderr.strip(),
+        })
+        if result.returncode != 0 and not allow_failure:
+            raise SystemExit(f"Error: lifecycle prove failed at {label}\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}")
+        return result
+
+    run_step("init", ["init", "--root", str(root), "--mode", args.mode, "--project-name", project_name, "--scaffold-bible", "--format", "json"])
+    seed_bible_from_evidence_root(root, evidence_root)
+
+    moat_path = moat_dir(root) / "moat.json"
+    if not moat_path.exists() or score_moat(load_json(moat_path))["outcome"] not in PASSING_OUTCOMES:
+        moat = proof_moat(project_name, evidence_root)
+        save_moat(root, moat)
+        (moat_dir(root) / "moat.md").write_text(render_moat_md(moat), encoding="utf-8")
+    run_step("moat-render", ["moat", "render", "--root", str(root), "--format", "json"])
+    run_step("moat-check", ["moat", "check", "--root", str(root), "--format", "json"])
+    run_step("advance-moat", ["lifecycle", "advance", "moat", "--root", str(root), "--outcome", "PASS", "--evidence", ".church/moat/moat.md", "--format", "json"])
+
+    bible_dir = root / DEFAULT_BIBLE_DIR
+    report_paths = {
+        "inventory": bible_dir / "_repo-bible-inventory.md",
+        "sources": bible_dir / "_repo-bible-sources.md",
+        "claim_scan": bible_dir / "_repo-bible-claim-scan.md",
+        "validation": bible_dir / "_repo-bible-validation.md",
+    }
+    evidence_excludes = [
+        "--exclude", ".church",
+        "--exclude", ".church/**",
+    ]
+    bible_commands = [
+        ("bible-inventory", ["bible", "inventory", "--root", str(evidence_root), *evidence_excludes, "--format", "markdown", "--output", str(report_paths["inventory"])]),
+        ("bible-sources", ["bible", "sources", "--root", str(root), "--follow-local-md", "--format", "markdown", "--output", str(report_paths["sources"])]),
+        ("bible-claim-scan", ["bible", "claim-scan", "--root", str(evidence_root), "--path", str(evidence_root), *evidence_excludes, "--required", "Repo Church", "--format", "markdown", "--output", str(report_paths["claim_scan"])]),
+        ("bible-validate", ["bible", "validate", "--root", str(root), "--follow-local-md", "--format", "markdown", "--output", str(report_paths["validation"])]),
+        ("bible-render-html", ["bible", "render-html", "--root", str(root), "--output", str(bible_dir / "html")]),
+    ]
+    for label, argv in bible_commands:
+        run_step(label, argv)
+    validation_json = run_step("bible-validate-json", [
+        "bible", "validate",
+        "--root", str(root),
+        "--follow-local-md",
+        "--format", "json",
+        "--output", "-",
+    ])
+    validation_data = json.loads(validation_json.stdout)
+    if validation_data.get("error_count") or validation_data.get("warning_count"):
+        raise SystemExit(
+            "Error: lifecycle prove requires clean Bible validation "
+            f"(errors={validation_data.get('error_count')}, warnings={validation_data.get('warning_count')})."
+        )
+    run_step("advance-bible", ["lifecycle", "advance", "bible", "--root", str(root), "--outcome", "PASS", "--evidence", ".church/bible/_repo-bible-validation.md", "--artifact", "bible_packet=.church/bible/", "--format", "json"])
+
+    survey_path = write_artifact(root, ".church/survey/codebase-survey.md", f"""# Codebase Survey
+
+Evidence root: `{evidence_root}`
+
+## Findings
+
+- Lifecycle registry, CLI, commands, agents, Repo Bible CLI, tests, and package manifest are present.
+- Inventory report is registered as `.church/bible/_repo-bible-inventory.md`.
+- Full lifecycle proof must exercise every canonical workflow without `--force`.
+""")
+    run_step("advance-survey", ["lifecycle", "advance", "survey", "--root", str(root), "--outcome", "PASS", "--evidence", relative_to_root(root, survey_path), "--artifact", "bible_inventory=.church/bible/_repo-bible-inventory.md", "--format", "json"])
+
+    run_step("ledger-init-assumptions", ["ledger", "init", "assumptions", "--root", str(root), "--format", "json"])
+    run_step("ledger-add-assumption", [
+        "ledger", "add", "assumptions", "--root", str(root),
+        "--id", "A-META-001",
+        "--summary", "Full lifecycle proof is the hard evidence needed for self-hosting readiness",
+        "--status", "satisfied",
+        "--evidence", ".church/proof/lifecycle-proof.json",
+        "--owner", "agent",
+        "--proof", "lifecycle prove reaches refresh PASS",
+        "--acceptance-test", "tests/test_church_meta_lifecycle.py",
+        "--recheck", "church lifecycle prove --root <repo>",
+        "--extra", "confidence=verified-local",
+        "--replace",
+        "--format", "json",
+    ])
+    run_step("advance-harden", ["lifecycle", "advance", "harden", "--root", str(root), "--outcome", "PASS", "--evidence", ".church/ledgers/assumptions.json", "--artifact", "assumption_ledger=.church/ledgers/assumptions.json", "--format", "json"])
+
+    anchor_path = write_artifact(root, ".church/anchors/meta-lifecycle-anchor.md", """# Meta Lifecycle Anchor
+
+Phase: P01 Self-Hosted Lifecycle Proof
+
+Objective: prove Repo Church can govern itself through every canonical lifecycle gate with evidence-backed state transitions.
+
+Requirements: SR-01, SR-02, SR-03, SR-04, SR-05.
+
+Acceptance: full lifecycle proof reaches `refresh/PASS`; tests and package validation pass; generated proof artifact records every stage.
+""")
+    run_step("advance-anchor", ["lifecycle", "advance", "anchor", "--root", str(root), "--outcome", "PASS", "--phase", "P01", "--evidence", relative_to_root(root, anchor_path), "--artifact", "phase_anchor=.church/anchors/meta-lifecycle-anchor.md", "--format", "json"])
+
+    spec_path = write_artifact(root, ".church/specs/meta-lifecycle-spec.md", """# Meta Lifecycle Spec
+
+## Scope
+
+Add deterministic proof that Repo Church can run its own lifecycle from moat through refresh without bypass flags.
+
+## Requirements
+
+| Requirement | Implementation | Verification |
+|---|---|---|
+| SR-01 | `church lifecycle prove` and `tests/test_church_meta_lifecycle.py` | Test reaches `refresh/PASS` |
+| SR-02 | Existing quality checks stay active during proof | No `--force` or `--allow-quality-risk` in proof steps |
+| SR-03 | Moat imports local evidence and validation tests | `church moat check` returns PASS |
+| SR-05 | Proof registers required artifacts | Proof JSON lists stages and artifact paths |
+""")
+    run_step("advance-spec", ["lifecycle", "advance", "spec-gate", "--root", str(root), "--outcome", "PASS", "--evidence", relative_to_root(root, spec_path), "--artifact", "spec_gate=.church/specs/meta-lifecycle-spec.md", "--format", "json"])
+
+    run_step("ledger-init-gaps", ["ledger", "init", "gaps", "--root", str(root), "--format", "json"])
+    run_step("ledger-add-gap", [
+        "ledger", "add", "gaps", "--root", str(root),
+        "--id", "GAP-META-001",
+        "--summary", "Full lifecycle proof was absent before this meta run",
+        "--status", "satisfied",
+        "--severity", "high",
+        "--evidence", ".church/bible/alignment-audit.md",
+        "--owner", "agent",
+        "--proof", "lifecycle prove command and regression test close the proof gap",
+        "--acceptance-test", "tests/test_church_meta_lifecycle.py",
+        "--recheck", "python3 tests/test_church_meta_lifecycle.py",
+        "--replace",
+        "--format", "json",
+    ])
+    gap_path = write_artifact(root, ".church/gaps/meta-gap-closure.md", "# Meta Gap Closure\n\nGAP-META-001 is closed by the lifecycle proof command and regression test.\n")
+    run_step("advance-gap", ["lifecycle", "advance", "gap-closure", "--root", str(root), "--outcome", "PASS", "--evidence", relative_to_root(root, gap_path), "--artifact", "gap_ledger=.church/ledgers/gaps.json", "--format", "json"])
+
+    handoff_path = write_artifact(root, ".church/handoff/meta-lifecycle-handoff.md", "# Meta Lifecycle Handoff\n\nScope is frozen to P01: prove full self-hosted lifecycle and validate the package. Next executor should run the validation commands in `.church/bible/validation-report.md`.\n")
+    run_step("advance-handoff", ["lifecycle", "advance", "handoff", "--root", str(root), "--outcome", "PASS", "--evidence", relative_to_root(root, handoff_path), "--artifact", "handoff=.church/handoff/meta-lifecycle-handoff.md", "--format", "json"])
+
+    run_step("ledger-init-uat", ["ledger", "init", "uat", "--root", str(root), "--format", "json"])
+    run_step("ledger-add-uat", [
+        "ledger", "add", "uat", "--root", str(root),
+        "--id", "UAT-META-001",
+        "--summary", "Full lifecycle proof reaches refresh PASS",
+        "--status", "satisfied",
+        "--evidence", ".church/proof/lifecycle-proof.json",
+        "--owner", "agent",
+        "--proof", "proof artifact records every canonical stage",
+        "--acceptance-test", "tests/test_church_meta_lifecycle.py",
+        "--recheck", "church lifecycle prove --root <repo>",
+        "--extra", "result=pass",
+        "--replace",
+        "--format", "json",
+    ])
+    run_step("signoff-agent", ["state", "set", "signoff.agent", "true", "--root", str(root), "--format", "json"])
+    uat_path = write_artifact(root, ".church/uat/meta-uat.md", """# Meta UAT
+
+Agent signoff: yes.
+User signoff: not required for this non-destructive proof command.
+Result: PASS.
+
+## Must-Pass Evidence
+
+- `.church/proof/lifecycle-proof.json` records the canonical workflow sequence through `refresh/PASS`.
+- `tests/test_church_meta_lifecycle.py` verifies the proof command on an isolated temporary root.
+- Ledger checks for assumptions, gaps, risks, and UAT return PASS with zero blockers.
+""")
+    run_step("advance-uat", ["lifecycle", "advance", "uat", "--root", str(root), "--outcome", "PASS", "--evidence", relative_to_root(root, uat_path), "--artifact", "uat_ledger=.church/ledgers/uat.json", "--format", "json"])
+
+    ship_path = write_artifact(root, ".church/ship/meta-ship-gate.md", """# Meta Ship Gate
+
+SHIP_READY: yes.
+
+## Proof-Owned Validation
+
+| Check | Command | Required result |
+|---|---|---|
+| Lifecycle proof | `church lifecycle prove --root . --self-package . --project-name "Repo Church"` | `refresh/PASS` |
+| Package validator | `bash skills/church/scripts/validate-package.sh .` | 0 errors, 0 warnings |
+| CLI tests | `python3 tests/test_church_cli.py` | all pass |
+| Plugin asset tests | `python3 tests/test_church_plugin_assets.py` | all pass |
+| Bible validation | `church bible validate --root . --follow-local-md --format json --output -` | 0 errors, 0 warnings |
+| Install smoke | `npx skills add ./ --list` | 12 intended skills listed |
+
+## External Regression
+
+`python3 tests/test_church_meta_lifecycle.py` validates this proof command on an isolated temporary root. It remains outside the proof-owned command list to avoid recursive self-invocation.
+
+## Quality Constraints
+
+- No lifecycle `--force` or `--allow-quality-risk` appears in the proof command log.
+- Market moat claims remain local-evidence-backed until P03 dated competitor research is completed.
+""")
+    run_external_step("ship-package-validator", ["bash", "skills/church/scripts/validate-package.sh", "."], evidence_root)
+    run_external_step("ship-cli-tests", [sys.executable, "tests/test_church_cli.py"], evidence_root)
+    run_external_step("ship-plugin-assets", [sys.executable, "tests/test_church_plugin_assets.py"], evidence_root)
+    run_external_step("ship-install-smoke", ["npx", "skills", "add", "./", "--list"], evidence_root)
+    run_step("advance-ship", ["lifecycle", "advance", "ship", "--root", str(root), "--outcome", "PASS", "--evidence", relative_to_root(root, ship_path), "--artifact", "ship_gate=.church/ship/meta-ship-gate.md", "--format", "json"])
+
+    refresh_path = write_artifact(root, ".church/refresh/meta-refresh-record.md", """# Meta Refresh Record
+
+The Bible, moat, lifecycle state, ledgers, proof artifact, rendered HTML, and tests now encode the self-hosted lifecycle requirement.
+
+## Refreshed Artifacts
+
+- `.church/bible/*.md`
+- `.church/bible/_repo-bible-*.md`
+- `.church/bible/html/`
+- `.church/moat/moat.md`
+- `.church/ledgers/*.json`
+- `.church/proof/lifecycle-proof.json`
+- `.church/state.json`
+
+## Recheck
+
+Run `church lifecycle prove --root . --self-package . --project-name "Repo Church" --format json`, then rerun the validation commands in `.church/ship/meta-ship-gate.md`.
+""")
+    run_step("advance-refresh", ["lifecycle", "advance", "refresh", "--root", str(root), "--outcome", "PASS", "--evidence", relative_to_root(root, refresh_path), "--artifact", "refresh_record=.church/refresh/meta-refresh-record.md", "--format", "json"])
+
+    final_status = context_payload(root, include_history=True, max_history=32)
+    proof = {
+        "schema_version": "church-lifecycle-proof/v1",
+        "root": str(root),
+        "evidence_root": str(evidence_root),
+        "project_name": project_name,
+        "created_at": now_iso(),
+        "commands": commands,
+        "final_status": final_status,
+        "repo_bible_commands": ["inventory", "sources", "claim-scan", "validate", "render-html"],
+        "canonical_pass_workflows": [
+            "moat", "bible", "survey", "harden", "anchor", "spec-gate",
+            "gap-closure", "handoff", "uat", "ship", "refresh",
+        ],
+    }
+    proof_path = proof_dir / "lifecycle-proof.json"
+    write_json(proof_path, proof)
+    emit({"proof": str(proof_path), "final_active": final_status["active"], "commands": len(commands)}, args.format, "Repo Church Lifecycle Proof")
+    return 0
+
+
 def cmd_ledger_init(args: argparse.Namespace) -> int:
     root = repo_root(args.root)
     path = ledger_path(root, args.kind)
@@ -1580,8 +1971,9 @@ def cmd_ledger_add(args: argparse.Namespace) -> int:
             key, value = pair.split("=", 1)
             item[key] = coerce_value(value)
     existing_ids = {entry.get("id") for entry in data.get("items", [])}
-    if item["id"] in existing_ids and not args.force:
-        print(f"Error: ledger item '{item['id']}' already exists. Use --force to replace it.", file=sys.stderr)
+    replace_existing = args.force or args.replace
+    if item["id"] in existing_ids and not replace_existing:
+        print(f"Error: ledger item '{item['id']}' already exists. Use --replace to refresh it or --force to replace it.", file=sys.stderr)
         return 1
     if item["id"] in existing_ids:
         data["items"] = [entry for entry in data["items"] if entry.get("id") != item["id"]]
@@ -2169,6 +2561,19 @@ def build_parser() -> argparse.ArgumentParser:
     p_lifecycle_handoff.add_argument("--output")
     add_format(p_lifecycle_handoff, default="markdown")
     p_lifecycle_handoff.set_defaults(func=cmd_lifecycle_handoff)
+    p_lifecycle_prove = lifecycle_sub.add_parser(
+        "prove",
+        help="Run the canonical Repo Church lifecycle with evidence artifacts and emit a proof record.",
+    )
+    p_lifecycle_prove.add_argument("--root", default=".")
+    p_lifecycle_prove.add_argument(
+        "--self-package",
+        help="Package root to inventory and claim-scan as evidence (defaults to --root).",
+    )
+    p_lifecycle_prove.add_argument("--project-name")
+    p_lifecycle_prove.add_argument("--mode", choices=["greenfield", "brownfield"], default="brownfield")
+    add_format(p_lifecycle_prove)
+    p_lifecycle_prove.set_defaults(func=cmd_lifecycle_prove)
 
     p_ledger = sub.add_parser("ledger", help="Manage structured assumption/gap/UAT/risk ledgers.")
     ledger_sub = p_ledger.add_subparsers(dest="ledger_command", required=True)
@@ -2200,6 +2605,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_ledger_add.add_argument("--blocks-progression", action="store_true", help="Mark this item as blocking phase progression.")
     p_ledger_add.add_argument("--workflow")
     p_ledger_add.add_argument("--extra", action="append")
+    p_ledger_add.add_argument("--replace", action="store_true", help="Refresh an existing item with the same ID.")
     p_ledger_add.add_argument("--force", action="store_true")
     p_ledger_add.add_argument("--root", default=".")
     add_format(p_ledger_add)

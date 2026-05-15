@@ -358,6 +358,8 @@ def iter_files(root: Path, include_hidden: bool = False, walk_options: WalkOptio
             if not include_hidden and d.startswith(".") and d not in (".planning", ".church"):
                 continue
             candidate = current / d
+            if (candidate / ".git").exists():
+                continue
             try:
                 rel_dir = rel(candidate, base)
             except ValueError:
@@ -435,6 +437,35 @@ def git_output(root: Path, args: list[str]) -> str:
     return result.stdout.strip()
 
 
+def git_status_paths(line: str) -> list[str]:
+    payload = line[3:] if len(line) > 3 else line
+    paths = [part.strip().strip('"') for part in payload.split(" -> ")]
+    return [path for path in paths if path]
+
+
+def status_line_is_nested_git_noise(root: Path, line: str) -> bool:
+    if not line.startswith("?? "):
+        return False
+    return any((root / path.rstrip("/") / ".git").exists() for path in git_status_paths(line))
+
+
+def filter_git_status(root: Path, lines: list[str], walk_options: WalkOptions) -> list[str]:
+    filtered: list[str] = []
+    for line in lines:
+        if status_line_is_nested_git_noise(root, line):
+            continue
+        paths = git_status_paths(line)
+        excluded = []
+        for path in paths:
+            rel_path = path.rstrip("/") or path
+            basename = rel_path.rsplit("/", 1)[-1]
+            excluded.append(path_matches_excludes(rel_path, basename, walk_options))
+        if paths and all(excluded):
+            continue
+        filtered.append(line)
+    return filtered
+
+
 def walk_options_from_args(args: argparse.Namespace, walk_base: Path | None = None) -> WalkOptions:
     extra: list[str] = []
     for raw in getattr(args, "exclude", None) or []:
@@ -484,10 +515,12 @@ def build_inventory(root: Path, walk_options: WalkOptions | None = None) -> dict
     ]
     package_files.sort()
 
+    git_status = git_output(root, ["status", "--short"]).splitlines()
+
     return {
         "root": str(root),
         "git_branch": git_output(root, ["branch", "--show-current"]),
-        "git_status_short": git_output(root, ["status", "--short"]).splitlines(),
+        "git_status_short": filter_git_status(root, git_status, opts),
         "counts": {
             "total_files_scanned": len(files),
             "documents": len(docs),
